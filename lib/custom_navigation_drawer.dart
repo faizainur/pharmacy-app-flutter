@@ -49,7 +49,7 @@ class _CustomNavigationDrawerState extends State<CustomNavigationDrawer> {
             ),
           ],
         ),
-        margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        margin: EdgeInsets.symmetric(vertical: 250, horizontal: 20),
       ),
     );
   }

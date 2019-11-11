@@ -5,6 +5,7 @@ import 'package:pharmacy_app/products_page.dart';
 import 'home_page.dart';
 import 'custom_navigation_drawer.dart';
 import 'rounded_container_widget.dart';
+import 'custom_app_bar.dart';
 
 void main() {
   runApp(MyApp());
@@ -45,65 +46,9 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
-        child: SafeArea(
-          child: Container(
-            // color: const Color(0xff006bff),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    const Color(0xff1f83fe),
-                    const Color(0xff006bff),
-                    const Color(0xff006bff),
-                  ]),
-            ),
-            child: ListTile(
-              contentPadding: EdgeInsets.only(left: 25, top: 10, bottom: 8),
-              leading: CircleAvatar(
-                radius: 25,
-              ),
-              // Icon(
-              //   Icons.menu,
-              //   size: 30,
-              //   color: Colors.white,
-              // ),
-              title: Row(
-                children: <Widget>[
-                  // Text(
-                  //   "Hello, ",
-                  //   style: TextStyle(
-                  //       color: Colors.white, fontSize: 20, letterSpacing: 2),
-                  // ),
-                  Text(
-                    "Faiz Ainur Rofiq",
-                    style: TextStyle(
-                      fontSize: 20,
-                      // fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      letterSpacing: 2,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-              subtitle: Text(
-                "Owner",
-                style: TextStyle(
-                  color: Colors.white70,
-                  letterSpacing: 1.7,
-                ),
-              ),
-              onTap: () {
-                setState(() {
-                  _scaffoldKey.currentState.openDrawer();
-                });
-              },
-            ),
-          ),
-        ),
+      appBar: CustomAppBar(
+        scafKey: _scaffoldKey,
+        barHeight: 80.0,
       ),
       drawer: CustomNavigationDrawer(),
       bottomNavigationBar: BottomNavyBar(
@@ -136,7 +81,7 @@ class _MainPageState extends State<MainPage> {
         ],
       ),
       body: RoundedContainer(
-        rounded_child: _pages.elementAt(_selectedIndex),
+        roundedChild: _pages.elementAt(_selectedIndex),
       ),
     );
   }

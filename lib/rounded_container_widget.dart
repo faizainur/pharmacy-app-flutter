@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 class RoundedContainer extends StatefulWidget {
   
-final Widget rounded_child;
+final Widget roundedChild;
 
-  RoundedContainer({Key key, this.rounded_child}) : super(key: key);
+  RoundedContainer({Key key, this.roundedChild}) : super(key: key);
 
   @override
   _RoundedContainerState createState() => _RoundedContainerState();
@@ -35,7 +35,7 @@ class _RoundedContainerState extends State<RoundedContainer> {
               borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(40.0),
                   topRight: const Radius.circular(40.0))),
-          child: widget.rounded_child,
+          child: widget.roundedChild,
         ),
       );
   }
