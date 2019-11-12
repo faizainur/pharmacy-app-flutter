@@ -120,7 +120,7 @@ class AddNewProductButton extends MaterialButton {
                     Expanded(
                       flex: 2,
                       child: Text(
-                        'Add new device',
+                        'Add new product',
                         style: TextStyle(
                           color: Colors.blueAccent,
                         ),

@@ -12,17 +12,28 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
-  List<Widget> listItem = [
-    AddNewProductButton(
-      onPressed: () {},
-    ),
-    Card(
-      child: SizedBox(
-        height: 100,
-        width: 100,
-      ),
-    ),
-  ];
+  static List<Widget> listItem = List<Widget>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (listItem.length < 1) {
+      listItem.add(
+        AddNewProductButton(
+          onPressed: () {
+            setState(() => listItem.add(
+                  Card(
+                    child: SizedBox(
+                      height: 100,
+                      width: 100,
+                    ),
+                  ),
+                ));
+          },
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,80 +136,11 @@ class _ProductsPageState extends State<ProductsPage> {
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(top: 20),
-                  child: RaisedButton(
-                    disabledElevation: 0,
-                    focusElevation: 0,
-                    highlightElevation: 0,
-                    disabledColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    color: Color(0xfff6f8fa),
-                    elevation: 0,
-                    hoverElevation: 1,
-                    textColor: Colors.blueAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 60,
-                      child: DottedBorder(
-                        dashPattern: [3],
-                        color: Colors.blueAccent,
-                        borderType: BorderType.RRect,
-                        radius: Radius.circular(5),
-                        strokeWidth: 2,
-                        child: Container(
-                          height: 70,
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 1,
-                                child: Icon(
-                                  Icons.add,
-                                  color: Colors.grey,
-                                  size: 30,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Text(
-                                  'Add new device',
-                                  // style: dateTextStyle.copyWith(fontSize: 20),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    onPressed: () {
-                      widget.scaffoldKey.currentState.showSnackBar(
-                        SnackBar(
-                          content: Text("Data"),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                AddNewProductButton(
-                  onPressed: () {
-                    widget.scaffoldKey.currentState.showSnackBar(
-                      SnackBar(
-                        content: Text("Data"),
-                      ),
-                    );
-                  },
-                )
               ],
             ),
             Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(left: 0, right: 0, top: 25),
+                  padding: EdgeInsets.only(left: 0, right: 0, top: 5),
                   child: ListView.builder(
                     itemCount: listItem.length,
                     itemBuilder: (BuildContext context, int index) {
