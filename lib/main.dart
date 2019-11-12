@@ -43,13 +43,13 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  static GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   int _selectedIndex = 0;
 
   static final List<Widget> _pages = <Widget>[
     HomePage(),
-    ProductsPage(),
+    ProductsPage(scaffoldKey: _scaffoldKey,),
     HistoryTransactionsPage(),
   ];
 
@@ -61,6 +61,7 @@ class _MainPageState extends State<MainPage> {
         scafKey: _scaffoldKey,
         barHeight: 80,
       ),
+
       drawer: SafeArea(child: CustomNavigationDrawer()),
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: _selectedIndex,
