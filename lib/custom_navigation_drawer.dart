@@ -8,48 +8,57 @@ class CustomNavigationDrawer extends StatefulWidget {
 class _CustomNavigationDrawerState extends State<CustomNavigationDrawer> {
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: Container(
-        child: ListView(
-          children: <Widget>[
-            ListTile(
-              leading: Icon(
-                Icons.home,
-                color: Colors.black,
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(50),
+        bottomRight: Radius.circular(50)
+      ),
+      child: Drawer(
+        child: Container(
+          child: ListView(
+            children: <Widget>[
+              ListTile(
+                leading: Icon(
+                  Icons.home,
+                  color: Colors.black,
+                ),
+                title: Text("My Shop"),
               ),
-              title: Text("My Shop"),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.history,
-                color: Colors.black,
+              ListTile(
+                leading: Icon(
+                  Icons.history,
+                  color: Colors.black,
+                ),
+                title: Text("Transactions History"),
+              ), 
+              ListTile(
+                leading: Icon(
+                  Icons.show_chart,
+                  color: Colors.black,
+                ),
+                title: Text("Overview"),
               ),
-              title: Text("Transactions History"),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.show_chart,
-                color: Colors.black,
+              ListTile(
+                leading: Icon(
+                  Icons.settings,
+                  color: Colors.black,
+                ),
+                title: Text("Settings"),
               ),
-              title: Text("Overview"),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.settings,
-                color: Colors.black,
+              ListTile(
+                leading: Icon(
+                  Icons.exit_to_app,
+                  color: Colors.black,
+                ),
+                title: Text("Log out"),
               ),
-              title: Text("Settings"),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.exit_to_app,
-                color: Colors.black,
-              ),
-              title: Text("Log out"),
-            ),
-          ],
+            ],
+          ),
+          margin: EdgeInsets.symmetric(
+            vertical: MediaQuery.of(context).size.height / 4,
+            horizontal: 20,
+          ),
         ),
-        margin: EdgeInsets.symmetric(vertical: 250, horizontal: 20),
       ),
     );
   }

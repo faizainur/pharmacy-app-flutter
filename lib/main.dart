@@ -6,8 +6,12 @@ import 'home_page.dart';
 import 'custom_navigation_drawer.dart';
 import 'rounded_container_widget.dart';
 import 'custom_app_bar.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.blue, // navigation bar color
+    statusBarColor: const Color(0xff1f83fe),));
   runApp(MyApp());
 }
 
@@ -15,6 +19,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        // brightness: Brightness.dark,
+        primaryColor: Colors.lightBlue[800],
+        accentColor: Colors.cyan[600],
+
+      ),
       home: MainPage(
         title: 'Pharmacy App',
       ),
@@ -48,9 +59,9 @@ class _MainPageState extends State<MainPage> {
       key: _scaffoldKey,
       appBar: CustomAppBar(
         scafKey: _scaffoldKey,
-        barHeight: 80.0,
+        barHeight: 80,
       ),
-      drawer: CustomNavigationDrawer(),
+      drawer: SafeArea(child: CustomNavigationDrawer()),
       bottomNavigationBar: BottomNavyBar(
         selectedIndex: _selectedIndex,
         showElevation: true, // use this to remove appBar's elevation

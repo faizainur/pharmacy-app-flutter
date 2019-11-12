@@ -11,12 +11,12 @@ class _HomePageState extends State<HomePage> {
     return Container(
         child: Padding(
       padding: EdgeInsets.only(
-        top: 8,
+        top: 9,
         left: 10,
         right: 10,
       ),
       child: ListView(
-        padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+        padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
         children: <Widget>[
           Row(
             mainAxisSize: MainAxisSize.max,
@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 flex: 1,
                 child: Card(
-                  elevation: 5,
+                  elevation: 2,
                   child: SizedBox(
                     width: 80,
                     height: 130,
@@ -62,7 +62,168 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 flex: 1,
                 child: Card(
-                  elevation: 5,
+                  elevation: 2,
+                  child: SizedBox(
+                    width: 80,
+                    height: 130,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text("Profit"),
+                            flex: 5,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Divider(
+                              thickness: 1,
+                              indent: 20,
+                              endIndent: 20,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 25,
+                            child: Center(
+                                child: Text("10000",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 40))),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),Row(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Card(
+                  elevation: 2,
+                  child: SizedBox(
+                    width: 80,
+                    height: 130,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text("Monthly Income"),
+                            flex: 5,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Divider(
+                              thickness: 1,
+                              indent: 20,
+                              endIndent: 20,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 25,
+                            child: Center(
+                                child: Text("500000",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 40))),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Card(
+                  elevation: 2,
+                  child: SizedBox(
+                    width: 80,
+                    height: 130,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text("Profit"),
+                            flex: 5,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Divider(
+                              thickness: 1,
+                              indent: 20,
+                              endIndent: 20,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 25,
+                            child: Center(
+                                child: Text("10000",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 40))),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Card(
+                  elevation: 2,
+                  child: SizedBox(
+                    width: 80,
+                    height: 130,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Text("Monthly Income"),
+                            flex: 5,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Divider(
+                              thickness: 1,
+                              indent: 20,
+                              endIndent: 20,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 25,
+                            child: Center(
+                                child: Text("500000",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 40))),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Card(
+                  elevation: 2,
                   child: SizedBox(
                     width: 80,
                     height: 130,
@@ -100,7 +261,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           Card(
-            elevation: 10,
+            elevation: 2,
             child: SizedBox(
               height: 285,
               child: Padding(
