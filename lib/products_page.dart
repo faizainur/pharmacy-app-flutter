@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pharmacy_app/addnewproductwodget.dart';
+import 'product_list_card.dart';
 
 class ProductsPage extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -31,17 +32,7 @@ class _ProductsPageState extends State<ProductsPage> {
         AddNewProductButton(
           onPressed: () {
             if (this.mounted) {
-              setState(() => listItem.add(
-                    Card(
-                      child: InkWell(
-                        onTap: () {},
-                        child: SizedBox(
-                          height: 100,
-                          width: 100,
-                        ),
-                      ),
-                    ),
-                  ));
+              setState(() => listItem.add(ProductCard()));
             } else {
               print("State not found");
             }
@@ -55,18 +46,7 @@ class _ProductsPageState extends State<ProductsPage> {
         AddNewProductButton(
           onPressed: () {
             if (this.mounted) {
-              setState(() => listItem.add(
-                    Card(
-                      child: InkWell(
-                          child: SizedBox(
-                            height: 100,
-                            width: 100,
-                          ),
-                          onTap: () {
-                            print("Card Tapped !!!!");
-                          }),
-                    ),
-                  ));
+              setState(() => listItem.add(ProductCard()));
             } else {
               print("State not found");
             }
