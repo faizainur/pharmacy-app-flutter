@@ -1,4 +1,4 @@
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:pharmacy_app/history_transactions_page.dart';
 import 'package:pharmacy_app/products_page.dart';
@@ -11,7 +11,8 @@ import 'package:flutter/services.dart';
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.blue, // navigation bar color
-    statusBarColor: const Color(0xff1f83fe),));
+    statusBarColor: const Color(0xff1f83fe),
+  ));
   runApp(MyApp());
 }
 
@@ -24,7 +25,6 @@ class MyApp extends StatelessWidget {
         // brightness: Brightness.dark,
         primaryColor: Colors.lightBlue[800],
         accentColor: Colors.cyan[600],
-
       ),
       home: MainPage(
         title: 'Pharmacy App',
@@ -49,48 +49,52 @@ class _MainPageState extends State<MainPage> {
 
   static final List<Widget> _pages = <Widget>[
     HomePage(),
-    ProductsPage(scaffoldKey: _scaffoldKey,),
+    ProductsPage(
+      scaffoldKey: _scaffoldKey,
+    ),
     HistoryTransactionsPage(),
   ];
 
+  void onItemTapped(int index){
+    setState(() => {
+      _selectedIndex = index
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    print("Application Launched");
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
         scafKey: _scaffoldKey,
         barHeight: 80,
       ),
-
       drawer: SafeArea(child: CustomNavigationDrawer()),
-      bottomNavigationBar: BottomNavyBar(
-        selectedIndex: _selectedIndex,
-        showElevation: true, // use this to remove appBar's elevation
-        onItemSelected: (index) => setState(() {
-          _selectedIndex = index;
-        }),
-        items: [
-          BottomNavyBarItem(
-              icon: Icon(Icons.home),
-              title: Text('Home'),
-              activeColor: Colors.blueAccent,
-              inactiveColor: Colors.black),
-          BottomNavyBarItem(
-              icon: Icon(Icons.list),
-              title: Text('Products'),
-              activeColor: Colors.blueAccent,
-              inactiveColor: Colors.black),
-          BottomNavyBarItem(
-              icon: Icon(Icons.history),
-              title: Text('History'),
-              activeColor: Colors.blueAccent,
-              inactiveColor: Colors.black),
-          BottomNavyBarItem(
-              icon: Icon(Icons.shopping_cart),
-              title: Text('Sell'),
-              activeColor: Colors.blueAccent,
-              inactiveColor: Colors.black),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text("Home"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            title: Text("Products"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            title: Text("History"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_shopping_cart),
+            title: Text("New"),
+          ),
         ],
+        currentIndex: _selectedIndex,
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+        onTap: onItemTapped,
+
       ),
       body: RoundedContainer(
         roundedChild: _pages.elementAt(_selectedIndex),

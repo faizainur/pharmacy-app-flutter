@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pharmacy_app/addnewproductwodget.dart';
 
 class ProductsPage extends StatefulWidget {
@@ -13,25 +15,79 @@ class ProductsPage extends StatefulWidget {
 
 class _ProductsPageState extends State<ProductsPage> {
   static List<Widget> listItem = List<Widget>();
+  GlobalKey _searchTextField;
+  static String barcodeScanRes;
+  static bool barcodeScanStatus;
+  final searchController = TextEditingController();
+  static AddNewProductButton addNewButton;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     if (listItem.length < 1) {
       listItem.add(
         AddNewProductButton(
           onPressed: () {
-            setState(() => listItem.add(
-                  Card(
-                    child: SizedBox(
-                      height: 100,
-                      width: 100,
+            if (this.mounted) {
+              setState(() => listItem.add(
+                    Card(
+                      child: InkWell(
+                        onTap: () {},
+                        child: SizedBox(
+                          height: 100,
+                          width: 100,
+                        ),
+                      ),
                     ),
-                  ),
-                ));
+                  ));
+            } else {
+              print("State not found");
+            }
           },
         ),
       );
+    } else {
+      listItem.removeAt(0);
+      listItem.insert(
+        0,
+        AddNewProductButton(
+          onPressed: () {
+            if (this.mounted) {
+              setState(() => listItem.add(
+                    Card(
+                      child: InkWell(
+                          child: SizedBox(
+                            height: 100,
+                            width: 100,
+                          ),
+                          onTap: () {
+                            print("Card Tapped !!!!");
+                          }),
+                    ),
+                  ));
+            } else {
+              print("State not found");
+            }
+          },
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    searchController.dispose();
+    super.dispose();
+  }
+
+  void scanBarcode() async {
+    barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+        "#FFFFFF", "Cancel", true, ScanMode.QR);
+    if (barcodeScanRes != "-1") {
+      setState(() => {searchController.text = barcodeScanRes});
     }
   }
 
@@ -60,15 +116,28 @@ class _ProductsPageState extends State<ProductsPage> {
                             color: Colors.white,
                           ),
                           child: TextField(
+                            controller: searchController,
+                            key: _searchTextField,
                             textAlign: TextAlign.left,
                             cursorColor: Colors.grey[300],
                             style: TextStyle(
                               fontSize: 20,
-                              color: Colors.grey[300],
+                              color: Colors.grey[700],
                             ),
                             decoration: InputDecoration(
-                              focusColor: Colors.grey[350],
-                              hoverColor: Colors.grey[350],
+                              suffixIcon: IconButton(
+                                onPressed: scanBarcode,
+                                icon: Image(
+                                  image: AssetImage(
+                                      'images/001-barcode-scanner.png'),
+                                  color: Colors.grey,
+                                ),
+                                focusColor: Colors.grey,
+                                iconSize: 25,
+                                hoverColor: Colors.grey,
+                              ),
+                              focusColor: Colors.grey[700],
+                              hoverColor: Colors.grey[700],
                               prefixIcon: Icon(
                                 Icons.search,
                                 color: const Color(0xffF3F2F7),
