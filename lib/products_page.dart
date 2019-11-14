@@ -21,6 +21,10 @@ class _ProductsPageState extends State<ProductsPage> {
   static bool barcodeScanStatus;
   final searchController = TextEditingController();
   static AddNewProductButton addNewButton;
+  static List<Widget> listChipWidget = List<Widget>();
+  static List<String> listChipLabel = List<String>();
+
+  static int incrementor = 1;
 
   @override
   void initState() {
@@ -148,10 +152,34 @@ class _ProductsPageState extends State<ProductsPage> {
                             ),
                           ),
                           onPressed: () {
-                            widget.scaffoldKey.currentState.showSnackBar(
-                              SnackBar(
-                                content: Text("Data"),
-                              ),
+                            // widget.scaffoldKey.currentState.showSnackBar(
+                            //   SnackBar(
+                            //     content: Text("Data"),
+                            //   ),
+                            // );
+                            setState(
+                              () {
+                                String label = "Data " + incrementor.toString();
+                                listChipLabel.add(label);
+                                listChipWidget.add(
+                                  Chip(
+                                    label: Text(label),
+                                    deleteIcon: Icon(Icons.close),
+                                    onDeleted: () {
+                                      setState(
+                                        () {
+                                          listChipWidget.removeAt(
+                                            listChipLabel.indexOf(label),
+                                          );
+                                          listChipLabel.remove(label);
+                                        },
+                                      );
+                                    },
+                                  ),
+                                );
+                                // Just for debugging
+                                incrementor++;
+                              },
                             );
                           },
                         ),
@@ -159,6 +187,9 @@ class _ProductsPageState extends State<ProductsPage> {
                     ],
                   ),
                 ),
+                Wrap( spacing: 2,
+                  children: listChipWidget,
+                )
               ],
             ),
             Expanded(
@@ -198,7 +229,7 @@ class _ProductsPageState extends State<ProductsPage> {
                       )
                     ],
                   )),
-            )
+            ),
           ],
         ),
       ),
