@@ -26,34 +26,6 @@ class _ProductsPageState extends State<ProductsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    if (listItem.length < 1) {
-      listItem.add(
-        AddNewProductButton(
-          onPressed: () {
-            if (this.mounted) {
-              setState(() => listItem.add(ProductCard()));
-            } else {
-              print("State not found");
-            }
-          },
-        ),
-      );
-    } else {
-      listItem.removeAt(0);
-      listItem.insert(
-        0,
-        AddNewProductButton(
-          onPressed: () {
-            if (this.mounted) {
-              setState(() => listItem.add(ProductCard()));
-            } else {
-              print("State not found");
-            }
-          },
-        ),
-      );
-    }
   }
 
   @override
@@ -65,7 +37,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
   void scanBarcode() async {
     barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-        "#FFFFFF", "Cancel", true, ScanMode.QR);
+        "#cedc00", "Cancel", true, ScanMode.DEFAULT);
     if (barcodeScanRes != "-1") {
       setState(() => {searchController.text = barcodeScanRes});
     }
@@ -75,15 +47,17 @@ class _ProductsPageState extends State<ProductsPage> {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+        padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
         child: Column(
           children: <Widget>[
             Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 5,
-                    horizontal: 15,
+                  padding: EdgeInsets.only(
+                    top: 5,
+                    left: 10,
+                    right: 10,
+                    bottom: 5,
                   ),
                   child: Row(
                     children: <Widget>[
@@ -189,15 +163,40 @@ class _ProductsPageState extends State<ProductsPage> {
             ),
             Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(left: 0, right: 0, top: 5),
-                  child: ListView.builder(
-                    itemCount: listItem.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: 10),
-                        child: listItem[index],
-                      );
-                    },
+                  padding: EdgeInsets.only(
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                  ),
+                  child: Stack(
+                    children: <Widget>[
+                      ListView.builder(
+                        itemCount: listItem.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 0),
+                            child: listItem[index],
+                          );
+                        },
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: FloatingActionButton(
+                            child: Icon(Icons.add),
+                            backgroundColor: Colors.blueAccent,
+                            onPressed: () {
+                              if (this.mounted) {
+                                setState(() => listItem.add(ProductCard()));
+                              } else {
+                                print("State not found");
+                              }
+                            },
+                          ),
+                        ),
+                      )
+                    ],
                   )),
             )
           ],

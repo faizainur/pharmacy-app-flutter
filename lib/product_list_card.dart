@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'models/product.dart';
-import 'package:auro_avatar/auro_avatar.dart';
 import 'package:avatar_letter/avatar_letter.dart';
+import 'package:random_color/random_color.dart';
 
 class ProductCard extends StatefulWidget {
   String imageUrl;
@@ -13,8 +13,9 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
-    return Padding( padding: EdgeInsets.symmetric(horizontal: 8),
-          child: Card(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      child: Card(
         child: InkWell(
           onTap: () {},
           child: SizedBox(
@@ -28,7 +29,8 @@ class _ProductCardState extends State<ProductCard> {
                     child: Center(
                       child: AvatarLetter(
                         size: 50,
-                        backgroundColor: Colors.grey,
+                        backgroundColor: RandomColor().randomColor(
+                            colorBrightness: ColorBrightness.light),
                         textColor: Colors.black,
                         fontSize: 26,
                         upperCase: true,
@@ -70,7 +72,10 @@ class _ProductCardState extends State<ProductCard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text("Stock", style: TextStyle(fontSize: 16)),
-                        Text("5", style: TextStyle(fontSize: 25),),
+                        Text(
+                          "5",
+                          style: TextStyle(fontSize: 25),
+                        ),
                       ],
                     ),
                   ),
