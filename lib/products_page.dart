@@ -1,8 +1,11 @@
+import 'package:easy_dialog/easy_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pharmacy_app/addnewproductwodget.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'product_list_card.dart';
 
 class ProductsPage extends StatefulWidget {
@@ -24,12 +27,25 @@ class _ProductsPageState extends State<ProductsPage> {
   static List<Widget> listChipWidget = List<Widget>();
   static List<String> listChipLabel = List<String>();
 
+  static List<String> listCategoriesName = ['Generic', 'Obat batuk'];
+  static List<bool> listCategoriesVal = [false, true];
+
+  static Map<String, bool> listCategories = <String, bool>{
+    'Generic': true,
+    'Obat batuk': true
+  };
+
+  Key _sortDialogKey;
+  GlobalKey<State> _productPageKey;
+
   static int incrementor = 1;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    listCategories.forEach((k, v) => print("$k $v"));
   }
 
   @override
@@ -50,6 +66,7 @@ class _ProductsPageState extends State<ProductsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: _productPageKey,
       child: Padding(
         padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
         child: Column(
@@ -158,27 +175,56 @@ class _ProductsPageState extends State<ProductsPage> {
                             //   ),
                             // );
                             setState(
-                              () {
-                                String label = "Data " + incrementor.toString();
-                                listChipLabel.add(label);
-                                listChipWidget.add(
-                                  Chip(
-                                    label: Text(label),
-                                    deleteIcon: Icon(Icons.close),
-                                    onDeleted: () {
-                                      setState(
-                                        () {
-                                          listChipWidget.removeAt(
-                                            listChipLabel.indexOf(label),
-                                          );
-                                          listChipLabel.remove(label);
-                                        },
-                                      );
-                                    },
-                                  ),
+                              () async {
+                                await showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return SortDialog(
+                                          key: _sortDialogKey,
+                                          listCategoriesName:
+                                              listCategoriesName,
+                                          listCategoriesVal: listCategoriesVal);
+                                    }).then(
+                                  (val) {
+                                    setState(
+                                      () {
+                                        
+                                        listCategoriesName.forEach(
+                                          (v) {
+                                            
+                                            int index =
+                                                listCategoriesName.indexOf(v);
+                                            bool checkboxVal =
+                                                listCategoriesVal[index];
+                                            String label =
+                                                "$v " + checkboxVal.toString();
+                                            listChipLabel.add(label);
+                                            listChipWidget.add(
+                                              Chip(
+                                                label: Text(label),
+                                                deleteIcon: Icon(Icons.close),
+                                                onDeleted: () {
+                                                  setState(
+                                                    () {
+                                                      String lblChip = label;
+                                                      int index = listChipLabel
+                                                            .indexOf(lblChip);
+                                                      listChipWidget.removeAt(
+                                                        index
+                                                      );
+                                                      listChipLabel
+                                                          .remove(lblChip);
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
                                 );
-                                // Just for debugging
-                                incrementor++;
                               },
                             );
                           },
@@ -187,7 +233,8 @@ class _ProductsPageState extends State<ProductsPage> {
                     ],
                   ),
                 ),
-                Wrap( spacing: 2,
+                Wrap(
+                  spacing: 2,
                   children: listChipWidget,
                 )
               ],
@@ -234,5 +281,87 @@ class _ProductsPageState extends State<ProductsPage> {
         ),
       ),
     );
+  }
+}
+
+class SortDialog extends StatefulWidget {
+  SortDialog(
+      {Key key,
+      this.listCategoriesName,
+      this.listCategoriesVal,
+      this.listChipWidget,
+      this.listChipLabel,
+      this.parentKey})
+      : super(key: key);
+  List<Widget> listWidgets = [];
+  GlobalKey<ScaffoldState> parentKey;
+  List<Widget> listChipWidget = List<Widget>();
+  List<String> listChipLabel = List<String>();
+
+  List<String> listCategoriesName = [];
+  List<bool> listCategoriesVal = [];
+  @override
+  _SortDialogState createState() => _SortDialogState();
+}
+
+class _SortDialogState extends State<SortDialog> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    // widget.listCategories.forEach((k, v) => print("$k $v"));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.listWidgets.isNotEmpty) {
+      widget.listWidgets.clear();
+    }
+    widget.listCategoriesName.forEach(
+      (v) {
+        int index = widget.listCategoriesName.indexOf(v);
+        bool checkboxVal = widget.listCategoriesVal[index];
+        widget.listWidgets.add(
+          CheckboxListTile(
+            value: checkboxVal,
+            title: Text(v),
+            onChanged: (value) {
+              setState(
+                () {
+                  widget.listCategoriesVal[index] = !checkboxVal;
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+    widget.listWidgets.add(RaisedButton(
+      onPressed: () {
+        // widget.parentKey.currentState.setState((){
+        //   int i = 1;
+        // });
+        // widget.parentKey.currentState.showSnackBar(
+        //   SnackBar(
+        //     content: Text("Data"),
+        //   ),
+        // );
+        Navigator.pop(context);
+      },
+      child: Center(
+        child: Text("Exit"),
+      ),
+    ));
+    return SimpleDialog(title: Text("Sort Data"), children: widget.listWidgets
+        // <Widget>[
+        //   ListView.builder(
+        //     itemCount: widget.listCategoriesCheckboxes.length,
+        //     itemBuilder: (BuildContext context, int index) {
+        //       return widget.listCategoriesCheckboxes[index];
+        //     },
+        //   )
+        // ],
+        );
   }
 }
