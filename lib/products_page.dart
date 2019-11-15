@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pharmacy_app/addnewproductwodget.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'product_list_card.dart';
+import 'sort_dialog.dart';
 
 class ProductsPage extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -188,10 +189,8 @@ class _ProductsPageState extends State<ProductsPage> {
                                   (val) {
                                     setState(
                                       () {
-                                        
                                         listCategoriesName.forEach(
                                           (v) {
-                                            
                                             int index =
                                                 listCategoriesName.indexOf(v);
                                             bool checkboxVal =
@@ -208,10 +207,9 @@ class _ProductsPageState extends State<ProductsPage> {
                                                     () {
                                                       String lblChip = label;
                                                       int index = listChipLabel
-                                                            .indexOf(lblChip);
-                                                      listChipWidget.removeAt(
-                                                        index
-                                                      );
+                                                          .indexOf(lblChip);
+                                                      listChipWidget
+                                                          .removeAt(index);
                                                       listChipLabel
                                                           .remove(lblChip);
                                                     },
@@ -281,87 +279,5 @@ class _ProductsPageState extends State<ProductsPage> {
         ),
       ),
     );
-  }
-}
-
-class SortDialog extends StatefulWidget {
-  SortDialog(
-      {Key key,
-      this.listCategoriesName,
-      this.listCategoriesVal,
-      this.listChipWidget,
-      this.listChipLabel,
-      this.parentKey})
-      : super(key: key);
-  List<Widget> listWidgets = [];
-  GlobalKey<ScaffoldState> parentKey;
-  List<Widget> listChipWidget = List<Widget>();
-  List<String> listChipLabel = List<String>();
-
-  List<String> listCategoriesName = [];
-  List<bool> listCategoriesVal = [];
-  @override
-  _SortDialogState createState() => _SortDialogState();
-}
-
-class _SortDialogState extends State<SortDialog> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    // widget.listCategories.forEach((k, v) => print("$k $v"));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (widget.listWidgets.isNotEmpty) {
-      widget.listWidgets.clear();
-    }
-    widget.listCategoriesName.forEach(
-      (v) {
-        int index = widget.listCategoriesName.indexOf(v);
-        bool checkboxVal = widget.listCategoriesVal[index];
-        widget.listWidgets.add(
-          CheckboxListTile(
-            value: checkboxVal,
-            title: Text(v),
-            onChanged: (value) {
-              setState(
-                () {
-                  widget.listCategoriesVal[index] = !checkboxVal;
-                },
-              );
-            },
-          ),
-        );
-      },
-    );
-    widget.listWidgets.add(RaisedButton(
-      onPressed: () {
-        // widget.parentKey.currentState.setState((){
-        //   int i = 1;
-        // });
-        // widget.parentKey.currentState.showSnackBar(
-        //   SnackBar(
-        //     content: Text("Data"),
-        //   ),
-        // );
-        Navigator.pop(context);
-      },
-      child: Center(
-        child: Text("Exit"),
-      ),
-    ));
-    return SimpleDialog(title: Text("Sort Data"), children: widget.listWidgets
-        // <Widget>[
-        //   ListView.builder(
-        //     itemCount: widget.listCategoriesCheckboxes.length,
-        //     itemBuilder: (BuildContext context, int index) {
-        //       return widget.listCategoriesCheckboxes[index];
-        //     },
-        //   )
-        // ],
-        );
   }
 }
