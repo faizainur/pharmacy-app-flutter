@@ -39,20 +39,39 @@ class _SortDialogState extends State<SortDialog> {
         int index = widget.listCategoriesName.indexOf(v);
         bool checkboxVal = widget.listCategoriesVal[index];
         widget.listWidgets.add(
-          CheckboxListTile(
-            value: checkboxVal,
-            title: Text(v),
-            onChanged: (value) {
-              setState(
-                () {
-                  widget.listCategoriesVal[index] = !checkboxVal;
-                },
-              );
-            },
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: CheckboxListTile(
+              value: checkboxVal,
+              title: Text(v),
+              onChanged: (value) {
+                setState(
+                  () {
+                    widget.listCategoriesVal[index] = !checkboxVal;
+                  },
+                );
+              },
+            ),
           ),
         );
       },
     );
+    widget.listWidgets.add(Column(
+      
+      children: <Widget>[
+        Padding(padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: Align(
+            alignment: Alignment.centerLeft,
+              child: Text("Sort by",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500
+                  ),
+                  textAlign: TextAlign.left)),
+        ),
+        
+      ],
+    ));
     widget.listWidgets.add(RaisedButton(
       onPressed: () {
         Navigator.pop(context);
@@ -62,7 +81,13 @@ class _SortDialogState extends State<SortDialog> {
       ),
     ));
     return SimpleDialog(
-      title: Text("Sort Data"),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+          side: BorderSide(
+            width: 0,
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(10))),
+      title: Text("Categories"),
       children: widget.listWidgets,
     );
   }

@@ -8,6 +8,7 @@ import 'package:pharmacy_app/addnewproductwodget.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'product_list_card.dart';
 import 'sort_dialog.dart';
+import 'sort_bottom_sheet.dart';
 
 class ProductsPage extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -170,61 +171,7 @@ class _ProductsPageState extends State<ProductsPage> {
                             ),
                           ),
                           onPressed: () {
-                            // widget.scaffoldKey.currentState.showSnackBar(
-                            //   SnackBar(
-                            //     content: Text("Data"),
-                            //   ),
-                            // );
-                            setState(
-                              () async {
-                                await showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return SortDialog(
-                                          key: _sortDialogKey,
-                                          listCategoriesName:
-                                              listCategoriesName,
-                                          listCategoriesVal: listCategoriesVal);
-                                    }).then(
-                                  (val) {
-                                    setState(
-                                      () {
-                                        listCategoriesName.forEach(
-                                          (v) {
-                                            int index =
-                                                listCategoriesName.indexOf(v);
-                                            bool checkboxVal =
-                                                listCategoriesVal[index];
-                                            String label =
-                                                "$v " + checkboxVal.toString();
-                                            listChipLabel.add(label);
-                                            listChipWidget.add(
-                                              Chip(
-                                                label: Text(label),
-                                                deleteIcon: Icon(Icons.close),
-                                                onDeleted: () {
-                                                  setState(
-                                                    () {
-                                                      String lblChip = label;
-                                                      int index = listChipLabel
-                                                          .indexOf(lblChip);
-                                                      listChipWidget
-                                                          .removeAt(index);
-                                                      listChipLabel
-                                                          .remove(lblChip);
-                                                    },
-                                                  );
-                                                },
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
-                                );
-                              },
-                            );
+                            showSortBottomSheet();
                           },
                         ),
                       ),
@@ -278,6 +225,93 @@ class _ProductsPageState extends State<ProductsPage> {
           ],
         ),
       ),
+    );
+  }
+
+  void showSortDialog() async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return SortDialog(
+              key: _sortDialogKey,
+              listCategoriesName: listCategoriesName,
+              listCategoriesVal: listCategoriesVal);
+        }).then(
+      (val) {
+        setState(
+          () {
+            listCategoriesName.forEach(
+              (v) {
+                int index = listCategoriesName.indexOf(v);
+                bool checkboxVal = listCategoriesVal[index];
+                String label = "$v " + checkboxVal.toString();
+                listChipLabel.add(label);
+                listChipWidget.add(
+                  Chip(
+                    label: Text(label),
+                    deleteIcon: Icon(Icons.close),
+                    onDeleted: () {
+                      setState(
+                        () {
+                          String lblChip = label;
+                          int index = listChipLabel.indexOf(lblChip);
+                          listChipWidget.removeAt(index);
+                          listChipLabel.remove(lblChip);
+                        },
+                      );
+                    },
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void showSortBottomSheet() {
+    showBottomSheet(
+      context: context,
+      builder: (context) {
+        return SortBottomSheet(listCategoriesName, listCategoriesVal);
+      },
+    ).closed.then(
+      (value) {
+        // Scaffold.of(context).showSnackBar(SnackBar(
+        //   content: Text("data"),
+        // ));
+        listChipLabel.clear();
+        listChipWidget.clear();
+        setState(
+          () {
+            listCategoriesName.forEach(
+              (v) {
+                int index = listCategoriesName.indexOf(v);
+                bool checkboxVal = listCategoriesVal[index];
+                String label = "$v " + checkboxVal.toString();
+                listChipLabel.add(label);
+                listChipWidget.add(
+                  Chip(
+                    label: Text(label),
+                    deleteIcon: Icon(Icons.close),
+                    onDeleted: () {
+                      setState(
+                        () {
+                          String lblChip = label;
+                          int index = listChipLabel.indexOf(lblChip);
+                          listChipWidget.removeAt(index);
+                          listChipLabel.remove(lblChip);
+                        },
+                      );
+                    },
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
     );
   }
 }
