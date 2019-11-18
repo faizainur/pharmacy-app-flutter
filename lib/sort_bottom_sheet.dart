@@ -16,15 +16,6 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
     return DefaultTabController(
       length: 2,
       child: Container(
-        // color: Colors.red,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: <BoxShadow>[BoxShadow(blurRadius: 0)],
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
         height: MediaQuery.of(context).size.height / 2,
         child: Column(
           children: <Widget>[
@@ -37,13 +28,14 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
             Expanded(
               flex: 1,
               child: TabBar(
+                indicatorPadding: EdgeInsets.symmetric(horizontal: 90),
                 labelColor: Colors.black,
                 tabs: <Widget>[
                   Tab(
                     text: "Categories",
                   ),
                   Tab(
-                    text: "Sort",
+                    text: "Sort by",
                   )
                 ],
               ),

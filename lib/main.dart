@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
-import 'package:pharmacy_app/history_transactions_page.dart';
+import 'package:pharmacy_app/history_page.dart';
 import 'package:pharmacy_app/products_page.dart';
 import 'home_page.dart';
 import 'custom_navigation_drawer.dart';
@@ -52,12 +51,24 @@ class _MainPageState extends State<MainPage> {
     ProductsPage(
       scaffoldKey: _scaffoldKey,
     ),
-    HistoryTransactionsPage(),
+    HistoryPage(),
+    HistoryPage()
   ];
 
-  void onItemTapped(int index){
-    setState(() => {
-      _selectedIndex = index
+  void onItemTapped(int index) {
+    setState(() {
+      if (index == 2 || index == 3) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return _pages[index];
+            }
+          ),
+        );
+      } else {
+        _selectedIndex = index;
+      }
     });
   }
 
@@ -72,6 +83,8 @@ class _MainPageState extends State<MainPage> {
       ),
       drawer: SafeArea(child: CustomNavigationDrawer()),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        elevation: 8,
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -94,7 +107,6 @@ class _MainPageState extends State<MainPage> {
         currentIndex: _selectedIndex,
         selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         onTap: onItemTapped,
-
       ),
       body: RoundedContainer(
         roundedChild: _pages.elementAt(_selectedIndex),

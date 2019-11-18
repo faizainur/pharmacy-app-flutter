@@ -20,25 +20,21 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
-  static List<Widget> listItem = List<Widget>();
+
+  static List<Widget> listProductItemCards = List<Widget>();
   GlobalKey _searchTextField;
   static String barcodeScanRes;
   static bool barcodeScanStatus;
   final searchController = TextEditingController();
-  static AddNewProductButton addNewButton;
+
+  /* List of Chip Widgets */
   static List<Widget> listChipWidget = List<Widget>();
   static List<String> listChipLabel = List<String>();
 
+  /* List of checkbox labels and values 
+      This list used for building checkboxes when SortBottomSheet showed*/
   static List<String> listCategoriesName = ['Generic', 'Obat batuk'];
   static List<bool> listCategoriesVal = [false, true];
-
-  static Map<String, bool> listCategories = <String, bool>{
-    'Generic': true,
-    'Obat batuk': true
-  };
-
-  Key _sortDialogKey;
-  GlobalKey<State> _productPageKey;
 
   static int incrementor = 1;
 
@@ -47,7 +43,36 @@ class _ProductsPageState extends State<ProductsPage> {
     // TODO: implement initState
     super.initState();
 
-    listCategories.forEach((k, v) => print("$k $v"));
+
+
+    if (listChipWidget.isNotEmpty) {
+      listChipWidget.clear();
+      listChipLabel.clear();
+      listCategoriesName.forEach(
+        (v) {
+          int index = listCategoriesName.indexOf(v);
+          bool checkboxVal = listCategoriesVal[index];
+          String label = "$v " + checkboxVal.toString();
+          listChipLabel.add(label);
+          listChipWidget.add(
+            Chip(
+              label: Text(label),
+              deleteIcon: Icon(Icons.close),
+              onDeleted: () {
+                setState(
+                  () {
+                    String lblChip = label;
+                    int index = listChipLabel.indexOf(lblChip);
+                    listChipWidget.removeAt(index);
+                    listChipLabel.remove(lblChip);
+                  },
+                );
+              },
+            ),
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -68,7 +93,6 @@ class _ProductsPageState extends State<ProductsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      key: _productPageKey,
       child: Padding(
         padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
         child: Column(
@@ -194,11 +218,11 @@ class _ProductsPageState extends State<ProductsPage> {
                   child: Stack(
                     children: <Widget>[
                       ListView.builder(
-                        itemCount: listItem.length,
+                        itemCount: listProductItemCards.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
                             padding: EdgeInsets.only(bottom: 0),
-                            child: listItem[index],
+                            child: listProductItemCards[index],
                           );
                         },
                       ),
@@ -211,7 +235,7 @@ class _ProductsPageState extends State<ProductsPage> {
                             backgroundColor: Colors.blueAccent,
                             onPressed: () {
                               if (this.mounted) {
-                                setState(() => listItem.add(ProductCard()));
+                                setState(() => listProductItemCards.add(ProductCard()));
                               } else {
                                 print("State not found");
                               }
@@ -233,7 +257,6 @@ class _ProductsPageState extends State<ProductsPage> {
         context: context,
         builder: (context) {
           return SortDialog(
-              key: _sortDialogKey,
               listCategoriesName: listCategoriesName,
               listCategoriesVal: listCategoriesVal);
         }).then(
@@ -270,13 +293,19 @@ class _ProductsPageState extends State<ProductsPage> {
     );
   }
 
-  void showSortBottomSheet() {
-    showBottomSheet(
+  void showSortBottomSheet() async {
+    await showModalBottomSheet(
       context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20)
+        ),
+      ),
       builder: (context) {
         return SortBottomSheet(listCategoriesName, listCategoriesVal);
       },
-    ).closed.then(
+    ).then(
       (value) {
         // Scaffold.of(context).showSnackBar(SnackBar(
         //   content: Text("data"),
