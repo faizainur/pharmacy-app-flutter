@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pharmacy_app/models/transaction.dart';
+import 'trasaction_details.dart';
 
 class HistoryItem extends StatefulWidget {
   Transaction transaction;
@@ -21,11 +22,11 @@ class _HistoryItemState extends State<HistoryItem> {
         onTap: () {
           /* TODO : Navigate to transaction details page, passing transaction data */
 
-          /* Navigator.push(context, MaterialPageRoute(
+          Navigator.push(context, MaterialPageRoute(
             builder: (BuildContext context) {
-              return HistoryPage();
+              return TransactionDetailsPage(widget.transaction);
             }
-          ),); */
+          ),);
         },
         child: Container(
           height: 80,
