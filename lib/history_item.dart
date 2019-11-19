@@ -22,11 +22,12 @@ class _HistoryItemState extends State<HistoryItem> {
         onTap: () {
           /* TODO : Navigate to transaction details page, passing transaction data */
 
-          Navigator.push(context, MaterialPageRoute(
-            builder: (BuildContext context) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (BuildContext context) {
               return TransactionDetailsPage(widget.transaction);
-            }
-          ),);
+            }),
+          );
         },
         child: Container(
           height: 80,
@@ -35,7 +36,7 @@ class _HistoryItemState extends State<HistoryItem> {
               Expanded(
                 flex: 1,
                 child: Center(
-                  child: Icon(FontAwesomeIcons.moneyBill),
+                  child: Icon(FontAwesomeIcons.receipt, color: Colors.blueAccent[100],),
                 ),
               ),
               Expanded(
@@ -48,21 +49,28 @@ class _HistoryItemState extends State<HistoryItem> {
                     children: <Widget>[
                       Expanded(
                         flex: 1,
-                        child: Align(alignment: Alignment.centerLeft,
-                                                  child: Text(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
                             "Rp. " + widget.transaction.totalPrice.toString(),
                             style: TextStyle(
-                                color: Colors.grey[800],
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold),
+                              color: Colors.grey[800],
+                              fontSize: 19,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
                       Expanded(
                         flex: 1,
-                        child: Align(alignment: Alignment.centerLeft,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
                           child: Text(
-                              "# " + widget.transaction.transactionId.toString()),
+                            "# " + widget.transaction.transactionId.toString(),
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                            ),
+                          ),
                         ),
                       )
                     ],

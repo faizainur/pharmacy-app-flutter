@@ -1,11 +1,9 @@
-import 'package:easy_dialog/easy_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pharmacy_app/addnewproductwodget.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'product_list_card.dart';
 import 'sort_dialog.dart';
 import 'sort_bottom_sheet.dart';
