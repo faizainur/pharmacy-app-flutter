@@ -17,7 +17,13 @@ class _ProductCardState extends State<ProductCard> {
       padding: EdgeInsets.symmetric(horizontal: 8),
       child: Card(
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            /* TODO :  Add onTap Function
+               when item tapped, will navigate to details page and passing data
+               to be shown in details page */
+
+               
+          },
           child: SizedBox(
             height: 80,
             child: Row(
