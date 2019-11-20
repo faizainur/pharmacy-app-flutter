@@ -16,9 +16,14 @@ class _HistoryPageState extends State<HistoryPage> {
   Transaction transaction1;
   Transaction transaction2;
 
-  Product obatBatuk = new Product('OB1', 'Obat Batuk', 5, 'Meredakan batuk');
-  Product paracetamol = new Product('PR1', 'Obat Demam', 25, 'Meredakan Demam');
-
+  Product obatBatuk = new Product('OB1', 'Obat Batuk', 20000, 5, 'Meredakan batuk');
+  Product paracetamol = new Product('PR1', 'Paracetamol', 15000, 25, 'Meredakan Demam');
+  Product diapet = new Product('OB1', 'Diapet', 20000, 5, 'Meredakan batuk');
+  Product diataps = new Product('PR1', 'Diataps', 15000, 25, 'Meredakan Demam');
+  Product promag = new Product('OB1', 'Promag', 20000, 5, 'Meredakan batuk');
+  Product imbost = new Product('PR1', 'Imbost', 15000, 25, 'Meredakan Demam');
+  Product betadine = new Product('OB1', 'betadine', 20000, 5, 'Meredakan batuk');
+  Product handsaplast = new Product('PR1', 'Handsaplast', 15000, 25, 'Meredakan Demam');
   // Transaction List Dummy Data
   List<Transaction> listTransaction1;
   List<Transaction> listTransaction2;
@@ -36,14 +41,16 @@ class _HistoryPageState extends State<HistoryPage> {
     // TODO: implement initState
     super.initState();
 
-    listProductSold1 = [obatBatuk, obatBatuk, paracetamol];
+    /* Test Dummy Datas */
+    listProductSold1 = [obatBatuk, obatBatuk, paracetamol,obatBatuk, obatBatuk, paracetamol,obatBatuk, obatBatuk, paracetamol];
 
-    listProductSold2 = [paracetamol, paracetamol, obatBatuk, obatBatuk];
+    listProductSold2 = [paracetamol, paracetamol, obatBatuk, obatBatuk
+    , diapet, promag, imbost, betadine, handsaplast];
 
     transaction1 = new Transaction(
-        21, '25 Nov 2019', '12.00', listProductSold1, 'Tunai', 24000);
+        21533, '25 November 2019', '12.00', listProductSold1, 'Tunai', 24000, 'Wisnu');
     transaction2 = new Transaction(
-        35, '28 Nov 2019', '12.50', listProductSold2, 'OVO', 120000);
+        35, '28 November 2019', '12.50', listProductSold2, 'OVO', 120000, 'Wisnu');
 
     listTransaction1 = [
       transaction1,
@@ -76,20 +83,23 @@ class _HistoryPageState extends State<HistoryPage> {
 
     bundleList.add(bundle1);
     bundleList.add(bundle2);
+
+    /* End of section */
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
+        backgroundColor: const Color(0xff1f83fe),
         elevation: 0,
         leading: BackButton(
-          color: Colors.grey[800],
+          color: Colors.white,
         ),
         title: Text(
           "Transaction History",
-          style: TextStyle(color: Colors.grey[800]),
+          style: TextStyle(color: Colors.white),
         ),
       ),
       body: Container(
@@ -104,9 +114,6 @@ class _HistoryPageState extends State<HistoryPage> {
                   listTiles.add(HistoryItem(v));
                 },
               );
-
-              print(index.toString() +
-                  bundleList[index].totalIncomePerDay.toString());
 
               return StickyHeader(
                 header: Container(

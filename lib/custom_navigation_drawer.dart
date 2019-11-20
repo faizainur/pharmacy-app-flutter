@@ -10,8 +10,8 @@ class _CustomNavigationDrawerState extends State<CustomNavigationDrawer> {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.only(
-        topRight: Radius.circular(50),
-        bottomRight: Radius.circular(50)
+        topRight: Radius.circular(10),
+        bottomRight: Radius.circular(10)
       ),
       child: Drawer(
         child: Container(

@@ -7,7 +7,8 @@ class Transaction {
   List<Product> listProductSold;
   String payMethod;
   int totalPrice;
+  String operator;
 
   Transaction(this.transactionId, this.date, this.time, this.listProductSold,
-      this.payMethod, this.totalPrice);
+      this.payMethod, this.totalPrice, this.operator);
 }

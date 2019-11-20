@@ -11,7 +11,6 @@ class TransactionBundle{
     _totalIncome = 0;
     transactionList.forEach((v) {
       _totalIncome += v.totalPrice;
-      print(_totalIncome.toString());
     });
     return _totalIncome;
   }
