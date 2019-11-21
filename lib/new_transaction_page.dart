@@ -22,6 +22,8 @@ class _NewTransactionPageState extends State<NewTransactionPage>
 
   static List<Widget> listProductItemCards = List<Widget>();
   GlobalKey _searchTextField;
+  GlobalKey<ScaffoldState> _scaffKey = GlobalKey<ScaffoldState>();
+
   final searchController = TextEditingController();
 
   /* List of Chip Widgets */
@@ -34,6 +36,8 @@ class _NewTransactionPageState extends State<NewTransactionPage>
   static List<bool> listCategoriesVal = [false, true];
 
   static int incrementor = 1;
+
+  bool _panelVisible = false;
 
   @override
   void initState() {
@@ -155,6 +159,7 @@ class _NewTransactionPageState extends State<NewTransactionPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffKey,
       appBar: AppBar(
         backgroundColor: Colors.grey[50],
         elevation: 0,
@@ -171,8 +176,31 @@ class _NewTransactionPageState extends State<NewTransactionPage>
         ),
       ),
       body: SlidingUpPanel(
-        panel: Center(
-          child: Text("data"),
+        onPanelSlide: (double st) {
+          if (st == 0.0) {
+            setState(() {
+              _panelVisible = false;
+            });
+          } else if (st == 1.0) {
+            setState(() {
+              _panelVisible = true;
+            });
+          } else {
+            setState(() {
+              _panelVisible = false;
+            });
+          }
+        },
+        // onPanelClosed: () {
+        //   setState(() {
+        //     _panelVisible = false;
+        //   });
+        // },
+        minHeight: 90,
+        maxHeight: MediaQuery.of(context).size.height * 0.6,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
         body: Container(
           child: Padding(
@@ -314,10 +342,72 @@ class _NewTransactionPageState extends State<NewTransactionPage>
             ),
           ),
         ),
-        minHeight: 90,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+        panel: AnimatedOpacity(
+          opacity: _panelVisible ? 1.0 : 0.0,
+          duration: Duration(milliseconds: 50),
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 3,
+                horizontal: 15,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Divider(
+                    color: Colors.grey,
+                    thickness: 3,
+                    indent: MediaQuery.of(context).size.width / 2.5,
+                    endIndent: MediaQuery.of(context).size.width / 2.5,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          "1 Product",
+                          style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(
+                                FontAwesomeIcons.calculator,
+                                size: 23,
+                                color: Colors.grey[700],
+                              ),
+                              splashColor: Colors.grey,
+                              onPressed: () {
+                                final snackBar = SnackBar(
+                                  content: Text('Yay! A SnackBar!'),
+                                  action: SnackBarAction(
+                                    label: 'Undo',
+                                    onPressed: () {
+                                      // Some code to undo the change.
+                                    },
+                                  ),
+                                );
+
+                                // Find the Scaffold in the widget tree and use
+                                // it to show a SnackBar.
+                                _scaffKey.currentState.showSnackBar(snackBar);
+                              },
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
         ),
         collapsed: Padding(
           padding: const EdgeInsets.all(3.0),
@@ -350,7 +440,7 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                               style: TextStyle(
                                 color: const Color(0xff0B3557),
                                 fontWeight: FontWeight.w500,
-                                fontSize: 23,
+                                fontSize: 28,
                               ),
                             ),
                           ],
@@ -360,7 +450,7 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                     Expanded(
                       flex: 3,
                       child: Padding(
-                        padding: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(8),
                         child: RaisedButton(
                           color: Colors.blue[900],
                           child: Center(
