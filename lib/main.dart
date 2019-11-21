@@ -6,6 +6,7 @@ import 'custom_navigation_drawer.dart';
 import 'rounded_container_widget.dart';
 import 'custom_app_bar.dart';
 import 'package:flutter/services.dart';
+import 'new_transaction_page.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         // brightness: Brightness.dark,
         primaryColor: Colors.lightBlue[800],
         accentColor: Colors.cyan[600],
+        // canvasColor: Colors.transparent,
       ),
       home: MainPage(
         title: 'Pharmacy App',
@@ -48,11 +50,14 @@ class _MainPageState extends State<MainPage> {
 
   static final List<Widget> _pages = <Widget>[
     HomePage(),
-    ProductsPage(
-      scaffoldKey: _scaffoldKey,
+    Padding(
+      padding: EdgeInsets.only(top: 15),
+      child: ProductsPage(
+        scaffoldKey: _scaffoldKey,
+      ),
     ),
     HistoryPage(),
-    HistoryPage()
+    NewTransactionPage()
   ];
 
   void onItemTapped(int index) {

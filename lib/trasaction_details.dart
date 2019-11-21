@@ -251,51 +251,43 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
             ),
             Expanded(
               child: Container(
-                key: _detaildCardKey,
                 padding:
-                    EdgeInsets.only(top: 0, right: 20, left: 20, bottom: 15),
+                    EdgeInsets.only(top: 10, right: 20, left: 20, bottom: 17),
                 child: Card(
                   elevation: 3,
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 2,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 17),
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              "Item Sold Details",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(top: 15, bottom: 8),
+                          child: Text(
+                            "Item Sold Details",
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: Divider(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          // Dash(length: MediaQuery.of(context).size.width - 45,),
+                        ),
+                        Divider(
+                          color: Colors.grey,
+                        ),
+                        // Dash(length: MediaQuery.of(context).size.width - 45,),
 
-                          Expanded(
-                            flex: 13,
-                            child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 0),
-                                child: ListView.builder(
-                                  itemCount: itemTileDetails.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return itemTileDetails[index];
-                                  },
-                                )),
-                          )
-                        ],
-                      ),
+                        Expanded(
+                          flex: 8,
+                          child: Padding(
+                              padding: EdgeInsets.only(
+                                  right: 15, left: 15, bottom: 10),
+                              child: ListView.builder(
+                                itemCount: itemTileDetails.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return itemTileDetails[index];
+                                },
+                              )),
+                        )
+                      ],
                     ),
                   ),
                 ),
@@ -310,6 +302,7 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
             Expanded(
               flex: 6,
               child: RaisedButton(
+                elevation: 0,
                 onPressed: () {
                   _transactionDetailsKey.currentState.showSnackBar(
                     SnackBar(

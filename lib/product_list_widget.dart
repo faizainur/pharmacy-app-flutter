@@ -4,20 +4,21 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pharmacy_app/addnewproductwodget.dart';
+import 'package:pharmacy_app/products_page.dart';
 import 'product_list_card.dart';
 import 'sort_dialog.dart';
 import 'sort_bottom_sheet.dart';
 
-class ProductsPage extends StatefulWidget {
+class ProductList extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  ProductsPage({Key key, this.scaffoldKey}) : super(key: key);
+  ProductList({Key key, this.scaffoldKey}) : super(key: key);
 
   @override
-  _ProductsPageState createState() => _ProductsPageState();
+  _ProductListState createState() => _ProductListState();
 }
 
-class _ProductsPageState extends State<ProductsPage> {
+class _ProductListState extends State<ProductList> {
   static List<Widget> listProductItemCards = List<Widget>();
   GlobalKey _searchTextField;
   static String barcodeScanRes;
@@ -68,6 +69,21 @@ class _ProductsPageState extends State<ProductsPage> {
         },
       );
     }
+    listProductItemCards.clear();
+
+    listProductItemCards.add(ProductCard());
+    listProductItemCards.add(ProductCard());
+    listProductItemCards.add(ProductCard());
+    listProductItemCards.add(ProductCard());
+    listProductItemCards.add(ProductCard());
+    listProductItemCards.add(ProductCard());
+    listProductItemCards.add(ProductCard());
+    listProductItemCards.add(ProductCard());
+    listProductItemCards.add(ProductCard());
+    listProductItemCards.add(ProductCard());
+    listProductItemCards.add(ProductCard());
+    listProductItemCards.add(ProductCard());
+    listProductItemCards.add(ProductCard());
   }
 
   @override
@@ -205,48 +221,21 @@ class _ProductsPageState extends State<ProductsPage> {
             ),
             Expanded(
               child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                  ),
-                  child: Stack(
-                    children: <Widget>[
-                      ListView.builder(
-                        itemCount: listProductItemCards.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: 0),
-                            child: listProductItemCards[index],
-                          );
-                        },
-                      ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: FloatingActionButton(
-                            child: Icon(Icons.add),
-                            backgroundColor: Colors.blueAccent,
-                            onPressed: () {
-                              if (this.mounted) {
-                                setState(
-                                  () => listProductItemCards.add(
-                                    InkWell(
-                                      child: ProductCard(),
-                                      onTap: () {},
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                print("State not found");
-                              }
-                            },
-                          ),
-                        ),
-                      )
-                    ],
-                  )),
+                padding: EdgeInsets.only(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                ),
+                child: ListView.builder(
+                  itemCount: listProductItemCards.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 0),
+                      child: listProductItemCards[index],
+                    );
+                  },
+                ),
+              ),
             ),
           ],
         ),
