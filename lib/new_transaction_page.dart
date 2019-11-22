@@ -383,87 +383,123 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                 ),
               ),
             ),
-            panel: Column(
-              children: <Widget>[
-                Divider(
-                  color: Colors.grey,
-                  thickness: 3,
-                  indent: MediaQuery.of(context).size.width / 2.5,
-                  endIndent: MediaQuery.of(context).size.width / 2.5,
-                ),
-                AnimatedOpacity(
-                  opacity: _panelVisible ? 1.0 : 0.0,
-                  duration: Duration(milliseconds: 50),
-                  child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 3,
-                        horizontal: 15,
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 2,
-                                child: Text(
-                                  "1 Product",
-                                  style: TextStyle(
-                                      color: Colors.grey[700],
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    IconButton(
-                                      icon: Icon(
-                                        FontAwesomeIcons.calculator,
-                                        size: 23,
-                                        color: Colors.grey[700],
+            panel: Container(
+              margin: EdgeInsets.only(bottom: 65),
+              child: Column(
+                children: <Widget>[
+                  Divider(
+                    color: Colors.grey,
+                    thickness: 3,
+                    indent: MediaQuery.of(context).size.width / 2.5,
+                    endIndent: MediaQuery.of(context).size.width / 2.5,
+                  ),
+                  Expanded(
+                    child: AnimatedOpacity(
+                      opacity: _panelVisible ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 50),
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          right: 10,
+                          left: 10,
+                          top: 0,
+                          bottom: 10,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(
+                                      "1 Product",
+                                      style: TextStyle(
+                                          color: Colors.grey[700],
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: IconButton(
+                                        icon: Icon(
+                                          FontAwesomeIcons.calculator,
+                                          size: 20,
+                                          color: Colors.grey[700],
+                                        ),
+                                        splashColor: Colors.grey,
+                                        onPressed: () {
+                                          final snackBar = SnackBar(
+                                            content: Text('Yay! A SnackBar!'),
+                                            action: SnackBarAction(
+                                              label: 'Undo',
+                                              onPressed: () {
+                                                // Some code to undo the change.
+                                              },
+                                            ),
+                                          );
+                                          // Find the Scaffold in the widget tree and use
+                                          // it to show a SnackBar.
+                                          _scaffKey.currentState
+                                              .showSnackBar(snackBar);
+                                        },
                                       ),
-                                      splashColor: Colors.grey,
-                                      onPressed: () {
-                                        final snackBar = SnackBar(
-                                          content: Text('Yay! A SnackBar!'),
-                                          action: SnackBarAction(
-                                            label: 'Undo',
-                                            onPressed: () {
-                                              // Some code to undo the change.
-                                            },
-                                          ),
-                                        );
-
-                                        // Find the Scaffold in the widget tree and use
-                                        // it to show a SnackBar.
-                                        _scaffKey.currentState
-                                            .showSnackBar(snackBar);
-                                      },
-                                    )
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                                flex: 10,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: ListView.builder(
+                                    itemCount: 100,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Text("Index $index");
+                                    },
+                                  ),
+                                )),
+                            Expanded(
+                              flex: 2,
+                              child: Center(
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        "Total",
+                                        style: TextStyle(
+                                            fontSize: 25, color: Colors.grey),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Text(
+                                        "Rp. 50000",
+                                        style: TextStyle(
+                                            color: const Color(0xff0B3557),
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.end,
+                                      ),
+                                    ),
                                   ],
                                 ),
-                              )
-                            ],
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height - 410,
-                            width: MediaQuery.of(context).size.width,
-                            child: ListView.builder(
-                              itemCount: 2,
-                              itemBuilder: (BuildContext context, int i) {
-                                return ItemTile(obatBatuk, 3);
-                              },
+                              ),
                             ),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             collapsed: Padding(
               padding: const EdgeInsets.all(3.0),
@@ -514,13 +550,16 @@ class _NewTransactionPageState extends State<NewTransactionPage>
           ),
           Align(
             alignment: Alignment.bottomRight,
-            child: AnimatedContainer(
-                alignment: Alignment.bottomLeft,
-                duration: Duration(milliseconds: 75),
-                height: 70,
-                width: _addButtonWidth,
-                padding: const EdgeInsets.all(8),
-                child: addBillButton),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AnimatedContainer(
+                  alignment: Alignment.bottomLeft,
+                  duration: Duration(milliseconds: 75),
+                  height: 70,
+                  width: _addButtonWidth,
+                  padding: const EdgeInsets.all(8),
+                  child: addBillButton),
+            ),
           ),
         ],
       ),
