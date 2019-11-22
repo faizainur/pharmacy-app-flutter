@@ -97,7 +97,7 @@ class _ProductListState extends State<ProductList> {
     barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
         "#cedc00", "Cancel", true, ScanMode.DEFAULT);
     if (barcodeScanRes != "-1") {
-      // setState(() => {searchController.text = barcodeScanRes});
+      setState(() => {searchController.text = barcodeScanRes});
     }
   }
 
