@@ -458,10 +458,10 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: ListView.builder(
-                                    itemCount: 100,
+                                    itemCount: 1,
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      return Text("Index $index");
+                                      return ItemPurchaseTile(obatBatuk, 2);
                                     },
                                   ),
                                 )),
@@ -561,6 +561,115 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                   child: addBillButton),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class ItemPurchaseTile extends StatefulWidget {
+  Product product;
+  int qty;
+
+  ItemPurchaseTile(this.product, this.qty);
+
+  @override
+  _ItemPurchaseTileState createState() => _ItemPurchaseTileState();
+}
+
+class _ItemPurchaseTileState extends State<ItemPurchaseTile> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(8),
+      height: 60,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  widget.product.productName,
+                  style: TextStyle(fontSize: 16),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    "Rp. " + widget.product.price.toString(),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: RaisedButton(
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.blue[700],
+                        size: 20,
+                      ),
+                      shape: CircleBorder(
+                          side: BorderSide(color: Colors.blue[700])),
+                      onPressed: () {},
+                      color: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      hoverColor: Colors.grey,
+                      splashColor: Colors.grey[200],
+                      elevation: 0,
+                      focusElevation: 0,
+                      highlightElevation: 0,
+                      hoverElevation: 0,
+                    ),
+                  ),
+                ),
+                Expanded(flex: 1,
+                                  child: TextField(
+                    textAlign: TextAlign.center,
+
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: RaisedButton(
+                      child: Icon(
+                        Icons.remove,
+                        color: Colors.blue[700],
+                        size: 20,
+                      ),
+                      shape: CircleBorder(
+                          side: BorderSide(color: Colors.blue[700])),
+                      onPressed: () {},
+                      color: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      hoverColor: Colors.grey,
+                      splashColor: Colors.grey[200],
+                      elevation: 0,
+                      focusElevation: 0,
+                      highlightElevation: 0,
+                      hoverElevation: 0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
