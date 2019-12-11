@@ -2,11 +2,12 @@
 class Product {
 
   String productName;
-  String productId;
+  int serialId;
+  DateTime exp;
   int productStock;
-  String productInfo;
   int price;
+  int rak;
 
   // Constructor
-  Product(this.productId, this.productName, this.price, this.productStock, this.productInfo);
+  Product(this.serialId, this.productName, this.price, this.productStock, this.exp, this.rak);
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:pharmacy_app/config/client.dart';
 import 'package:pharmacy_app/history_page.dart';
 import 'package:pharmacy_app/products_page.dart';
 import 'home_page.dart';
@@ -8,15 +10,43 @@ import 'custom_app_bar.dart';
 import 'package:flutter/services.dart';
 import 'new_transaction_page.dart';
 
+GraphQLConfiguration graphQLConfiguration = GraphQLConfiguration();
+
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.blue, // navigation bar color
     statusBarColor: const Color(0xff1f83fe),
   ));
-  runApp(MyApp());
+  final HttpLink httpLink = HttpLink(uri: 'http://34.226.136.197/v1/graphql',
+  headers: {'x-hasura-access-key' : 'adminpostgres'});
+  final AuthLink authLink =
+      AuthLink(getToken: () async => 'Bearer adminpostgres');
+  final Link link = authLink.concat(httpLink as Link);
+  ValueNotifier<GraphQLClient> client = ValueNotifier(
+    GraphQLClient(
+      cache: InMemoryCache(),
+      link: link,
+    ),
+  );
+  runApp(
+    GraphQLProvider(
+      client: client,
+      child: CacheProvider(child: MyApp()),
+    ),
+  );
+  // runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  String docQuery = """
+  query MyQuery {
+    produk {
+      nama_produk
+      harga
+    }
+  }
+  """;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,7 +57,22 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.cyan[600],
         // canvasColor: Colors.transparent,
       ),
-      home: MainPage(
+      home: 
+      // Query(options: QueryOptions(document: docQuery),
+      // builder: 
+      // (QueryResult result, {VoidCallback refetch}) {
+      //     if (result.errors != null) {
+      //       return Text(result.errors.toString());
+      //     }
+      //     if (result.loading) {
+      //       return Text("Loading");
+      //     }
+      //     // List resData = result.data['produk'];
+      //     print(result.data['produk'][0]['nama_produk']);
+      //     return Text(result.data['produk'][0]['nama_produk']);
+      //     // return Text("Hello");
+      // },) 
+      MainPage(
         title: 'Pharmacy App',
       ),
     );
@@ -57,7 +102,7 @@ class _MainPageState extends State<MainPage> {
       ),
     ),
     HistoryPage(),
-    NewTransactionPage()
+    NewTransactionPage(_scaffoldKey)
   ];
 
   void onItemTapped(int index) {
@@ -65,11 +110,9 @@ class _MainPageState extends State<MainPage> {
       if (index == 2 || index == 3) {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) {
-              return _pages[index];
-            }
-          ),
+          MaterialPageRoute(builder: (context) {
+            return _pages[index];
+          }),
         );
       } else {
         _selectedIndex = index;

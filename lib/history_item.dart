@@ -36,7 +36,10 @@ class _HistoryItemState extends State<HistoryItem> {
               Expanded(
                 flex: 1,
                 child: Center(
-                  child: Icon(FontAwesomeIcons.receipt, color: Colors.blueAccent[100],),
+                  child: Icon(
+                    FontAwesomeIcons.receipt,
+                    color: Colors.blueAccent[100],
+                  ),
                 ),
               ),
               Expanded(
@@ -83,11 +86,14 @@ class _HistoryItemState extends State<HistoryItem> {
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Expanded(
-                        flex: 1,
-                        child: Center(
-                            child: Padding(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Text(widget.transaction.payMethod)))),
+                      flex: 1,
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          // child: Text(widget.transaction.payMethod),
+                        ),
+                      ),
+                    ),
                     Expanded(
                         flex: 1,
                         child: Center(

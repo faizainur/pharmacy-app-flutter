@@ -219,8 +219,9 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                                 ),
                               ),
                               Expanded(
-                                  flex: 8,
-                                  child: Text(widget.transaction.payMethod))
+                                flex: 8,
+                                // child: Text(widget.transaction.payMethod),
+                              )
                             ],
                           ),
                         ),
@@ -348,4 +349,3 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
     );
   }
 }
-

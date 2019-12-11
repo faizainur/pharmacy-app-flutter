@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:pharmacy_app/data/queries.dart';
 import 'package:pharmacy_app/item_tile.dart';
+import 'package:pharmacy_app/product_details.dart';
 import 'package:pharmacy_app/product_list_card.dart';
 import 'package:pharmacy_app/products_page.dart';
 import 'package:pharmacy_app/sliding_panel.dart';
@@ -10,8 +14,11 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'models/product.dart';
 import 'product_list_widget.dart';
 import 'package:rubber/rubber.dart';
+import 'package:string_validator/string_validator.dart';
 
 class NewTransactionPage extends StatefulWidget {
+  GlobalKey<ScaffoldState> _keyTransaction;
+  NewTransactionPage(this._keyTransaction);
   @override
   _NewTransactionPageState createState() => _NewTransactionPageState();
 }
@@ -46,31 +53,31 @@ class _NewTransactionPageState extends State<NewTransactionPage>
   double _addButtonWidth;
   double _addButtonHeight;
 
-  /* Dummy data */
-  Product obatBatuk =
-      new Product('OB1', 'Obat Batuk', 20000, 5, 'Meredakan batuk');
-  Product paracetamol =
-      new Product('PR1', 'Paracetamol', 15000, 25, 'Meredakan Demam');
-  Product diapet = new Product('OB1', 'Diapet', 20000, 5, 'Meredakan batuk');
-  Product diataps = new Product('PR1', 'Diataps', 15000, 25, 'Meredakan Demam');
-  Product promag = new Product('OB1', 'Promag', 20000, 5, 'Meredakan batuk');
-  Product imbost = new Product('PR1', 'Imbost', 15000, 25, 'Meredakan Demam');
-  Product betadine =
-      new Product('OB1', 'betadine', 20000, 5, 'Meredakan batuk');
-  Product handsaplast =
-      new Product('PR1', 'Handsaplast', 15000, 25, 'Meredakan Demam');
+  bool searchEnable = false;
+  String keyString = "";
+  int keyInt = 0;
 
-  var addBillButton = RaisedButton(
-    color: Colors.blue[900],
-    child: Center(
-      child: Text(
-        "Add Bill",
-        style: TextStyle(color: Colors.white, fontSize: 20),
-      ),
-    ),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-    onPressed: () {},
-  );
+  List<Product> soldProduct = List<Product>();
+  List<int> soldProductId = List<int>();
+  List<int> soldProductQty = List<int>();
+  int totalHarga = 0;
+  int totalProduk = 0;
+
+
+  // var addBillButton = RaisedButton(
+  //   color: Colors.blue[900],
+  //   child: Center(
+  //     child: Text(
+  //       "Add Bill",
+  //       style: TextStyle(color: Colors.white, fontSize: 20),
+  //     ),
+  //   ),
+  //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+  //   onPressed: () {
+  //     String str = parseSoldProductArray(soldProductId, soldProductQty);
+  //     print(str);
+  //   },
+  // );
 
   @override
   void initState() {
@@ -110,19 +117,19 @@ class _NewTransactionPageState extends State<NewTransactionPage>
     }
     listProductItemCards.clear();
 
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
 
     _addButtonWidth = 150;
     _addButtonHeight = 80;
@@ -192,8 +199,24 @@ class _NewTransactionPageState extends State<NewTransactionPage>
     );
   }
 
+  String parseSoldProductArray(List<int> serialId, List<int> qtyList) {
+    String str = "{";
+    serialId.forEach((id) {
+      int index = serialId.indexOf(id);
+      int qty = qtyList[index];
+      if (serialId.indexOf(id) == serialId.length - 1) {
+        str = str + "{$id,$qty}}";
+      } else {
+        str = str + "{$id,$qty},";
+      }
+    });
+    return str;
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(soldProductId);
+    print(soldProductQty);
     return Scaffold(
       key: _scaffKey,
       appBar: AppBar(
@@ -315,6 +338,42 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                                       ),
                                     ),
                                     autofocus: false,
+                                    onSubmitted: (String key) {
+                                      if (key.isEmpty) {
+                                        setState(() {
+                                          searchEnable = false;
+                                        });
+                                      } else if (key.isNotEmpty) {
+                                        if (isNumeric(key)) {
+                                          keyInt = int.parse(key);
+                                          keyString = "";
+                                        } else {
+                                          keyString = "%" + key + "%";
+                                          keyInt = 0;
+                                        }
+                                        setState(() {
+                                          searchEnable = true;
+                                        });
+                                      }
+                                    },
+                                    onChanged: (String key) {
+                                      if (key.isEmpty) {
+                                        setState(() {
+                                          searchEnable = false;
+                                        });
+                                      } else if (key.isNotEmpty) {
+                                        if (isNumeric(key)) {
+                                          keyInt = int.parse(key);
+                                          keyString = "";
+                                        } else {
+                                          keyString = "%" + key + "%";
+                                          keyInt = 0;
+                                        }
+                                        setState(() {
+                                          searchEnable = true;
+                                        });
+                                      }
+                                    },
                                   ),
                                 ),
                               ),
@@ -368,12 +427,75 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                           right: 0,
                           top: 0,
                         ),
-                        child: ListView.builder(
-                          itemCount: listProductItemCards.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: EdgeInsets.only(bottom: 0),
-                              child: listProductItemCards[index],
+                        child: Query(
+                          options: searchEnable
+                              ? QueryOptions(
+                                  document: Queries.searchData,
+                                  variables: {
+                                      'keyString': keyString,
+                                      'keyInt': keyInt
+                                    })
+                              : QueryOptions(document: Queries.fetchAll()),
+                          builder: (QueryResult result,
+                              {VoidCallback refetch}) {
+                            if (result.errors != null) {
+                              return Text(result.errors.toString());
+                            }
+                            if (result.loading) {
+                              return Text("Loading...");
+                            }
+                            List<dynamic> fetchedProduk = result.data['produk'];
+                            return ListView.builder(
+                              itemCount: fetchedProduk.length,
+                              itemBuilder: (context, index) {
+                                dynamic responseData = fetchedProduk[index];
+                                Product product = Product(
+                                    responseData['serial_id'],
+                                    responseData['nama_produk'],
+                                    responseData['harga'],
+                                    responseData['stocks'][0]['stock'],
+                                    DateTime.parse(responseData['exp']),
+                                    responseData['rak_produks'][0]['rak']);
+                                return InkWell(
+                                  child: ProductCard(product),
+                                  onTap: () {
+                                    // setState(
+                                    //   () {
+                                    //     if (soldProductId
+                                    //         .contains(product.serialId)) {
+                                    //       soldProductQty[soldProductId
+                                    //           .indexOf(product.serialId)] += 1;
+                                    //     } else {
+                                    //       soldProductId.add(product.serialId);
+                                    //       soldProduct.add(product);
+                                    //       soldProductId.add(1);
+                                    //     }
+                                    //   },
+                                    // );
+                                    print(product.serialId);
+                                    // soldProductQty.clear();
+                                    //     soldProduct.clear();
+                                    setState(() {
+                                      if (!soldProductId
+                                          .contains(product.serialId)) {
+                                        print("Tidak Ada");
+                                        soldProduct.add(product);
+                                        soldProductId.add(product.serialId);
+                                        soldProductQty.add(1);
+                                        totalHarga += product.price;
+                                      } else {
+                                        print("Ada");
+                                        soldProductQty[soldProductId
+                                            .indexOf(product.serialId)] += 1;
+                                        totalHarga += product.price;
+                                      }
+                                    });
+                                    // print(soldProductId);
+                                    // print(soldProductQty);
+                                  },
+                                  splashColor: Colors.grey,
+                                );
+                              },
                             );
                           },
                         ),
@@ -414,7 +536,8 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                                   Expanded(
                                     flex: 2,
                                     child: Text(
-                                      "1 Product",
+                                      soldProduct.length.toString() +
+                                          " Product",
                                       style: TextStyle(
                                           color: Colors.grey[700],
                                           fontSize: 17,
@@ -458,10 +581,12 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: ListView.builder(
-                                    itemCount: 1,
+                                    itemCount: soldProduct.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      return ItemPurchaseTile(obatBatuk, 2);
+                                      return ItemPurchaseTile(
+                                          soldProduct[index],
+                                          soldProductQty[index]);
                                     },
                                   ),
                                 )),
@@ -481,7 +606,7 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                                     Expanded(
                                       flex: 1,
                                       child: Text(
-                                        "Rp. 50000",
+                                        totalHarga.toString(),
                                         style: TextStyle(
                                             color: const Color(0xff0B3557),
                                             fontSize: 25,
@@ -529,7 +654,7 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                                       color: Colors.grey, fontSize: 18),
                                 ),
                                 Text(
-                                  "Rp. " + 5000.toString(),
+                                  "Rp. " + totalHarga.toString(),
                                   style: TextStyle(
                                     color: const Color(0xff0B3557),
                                     fontWeight: FontWeight.w500,
@@ -553,12 +678,58 @@ class _NewTransactionPageState extends State<NewTransactionPage>
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: AnimatedContainer(
-                  alignment: Alignment.bottomLeft,
-                  duration: Duration(milliseconds: 75),
-                  height: 70,
-                  width: _addButtonWidth,
-                  padding: const EdgeInsets.all(8),
-                  child: addBillButton),
+                alignment: Alignment.bottomLeft,
+                duration: Duration(milliseconds: 75),
+                height: 70,
+                width: _addButtonWidth,
+                padding: const EdgeInsets.all(8),
+                child: Mutation(
+                  options: MutationOptions(document: Queries.addTransaction),
+                  builder: (RunMutation runMutation, QueryResult result) {
+                    return RaisedButton(
+                      color: Colors.blue[900],
+                      child: Center(
+                        child: Text(
+                          "Add Bill",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      onPressed: () {
+                        String str = parseSoldProductArray(
+                            soldProductId, soldProductQty);
+                        runMutation({
+                          'jam': DateFormat.Hm().format(DateTime.now()),
+                          'tanggal':
+                              DateFormat("yyyy-MM-dd").format(DateTime.now()),
+                          'soldProduct': str,
+                          'totalHarga': totalHarga
+                        });
+                      },
+                    );
+                  },
+                  update: (Cache cache, QueryResult result) {
+                    if (result.hasErrors) {
+                      print(result.errors);
+                    }
+                    return cache;
+                  },
+                  onCompleted: (dynamic resultData) {
+                    if (resultData.isNotEmpty) {
+                      Navigator.pop(context);
+                      widget._keyTransaction.currentState.showSnackBar(SnackBar(
+                        content: Text("Add New Transaction Successfully"),
+                        duration: Duration(seconds: 1),
+                      ));
+                    } else {
+                      _scaffKey.currentState.showSnackBar(SnackBar(
+                        content: Text("Unable to add new transaction."),
+                      ));
+                    }
+                  },
+                ),
+              ),
             ),
           ),
         ],
@@ -586,7 +757,7 @@ class _ItemPurchaseTileState extends State<ItemPurchaseTile> {
       child: Row(
         children: <Widget>[
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -609,69 +780,109 @@ class _ItemPurchaseTileState extends State<ItemPurchaseTile> {
             ),
           ),
           Expanded(
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: RaisedButton(
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.blue[700],
-                        size: 20,
-                      ),
-                      shape: CircleBorder(
-                          side: BorderSide(color: Colors.blue[700])),
-                      onPressed: () {},
-                      color: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      hoverColor: Colors.grey,
-                      splashColor: Colors.grey[200],
-                      elevation: 0,
-                      focusElevation: 0,
-                      highlightElevation: 0,
-                      hoverElevation: 0,
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Expanded(
+                    flex: 6,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Container(),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 10),
+                          child: Text(
+                            "Rp. " +
+                                widget.product.price.toString() +
+                                " x " +
+                                widget.qty.toString(),
+                            style: TextStyle(
+                                fontSize: 13, color: Colors.grey[700]),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                ),
-                Expanded(flex: 1,
-                                  child: TextField(
-                    textAlign: TextAlign.center,
-
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: RaisedButton(
-                      child: Icon(
-                        Icons.remove,
-                        color: Colors.blue[700],
-                        size: 20,
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      // alignment: Alignment.center,
+                      child: IconButton(
+                        icon: Icon(Icons.edit),
+                        iconSize: 18,
+                        color: Colors.grey[700],
+                        onPressed: () {
+                          Scaffold.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Edit Data"),
+                            ),
+                          );
+                        },
                       ),
-                      shape: CircleBorder(
-                          side: BorderSide(color: Colors.blue[700])),
-                      onPressed: () {},
-                      color: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      hoverColor: Colors.grey,
-                      splashColor: Colors.grey[200],
-                      elevation: 0,
-                      focusElevation: 0,
-                      highlightElevation: 0,
-                      hoverElevation: 0,
                     ),
-                  ),
-                ),
-              ],
-            ),
-          )
+                  )
+                ],
+              ))
         ],
       ),
     );
   }
 }
+/* 
+Flex(
+              direction: Axis.horizontal,
+              children: <Widget>[
+                ButtonTheme(
+                  minWidth: 30,
+                  height: 20,
+                  child: FlatButton(
+                    // padding: EdgeInsets.all(8),
+                    color: Colors.transparent,
+                    disabledColor: Colors.transparent,
+                    splashColor: Colors.grey[200],
+                    focusColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    shape: CircleBorder(
+                      side: BorderSide(color: Colors.blue[700]),
+                    ),
+                    child: Icon(
+                      Icons.remove,
+                      color: Colors.blue[700],
+                      size: 18,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                ButtonTheme(
+                  minWidth: 30,
+                  height: 20,
+                  child: FlatButton(
+                    // padding: EdgeInsets.all(8),
+                    color: Colors.transparent,
+                    disabledColor: Colors.transparent,
+                    splashColor: Colors.grey[200],
+                    focusColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    shape: CircleBorder(
+                      side: BorderSide(color: Colors.blue[700]),
+                    ),
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.blue[700],
+                      size: 18,
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            ), */

@@ -71,19 +71,19 @@ class _ProductListState extends State<ProductList> {
     }
     listProductItemCards.clear();
 
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
-    listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
+    // listProductItemCards.add(ProductCard());
   }
 
   @override

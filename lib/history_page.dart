@@ -16,14 +16,14 @@ class _HistoryPageState extends State<HistoryPage> {
   Transaction transaction1;
   Transaction transaction2;
 
-  Product obatBatuk = new Product('OB1', 'Obat Batuk', 20000, 5, 'Meredakan batuk');
-  Product paracetamol = new Product('PR1', 'Paracetamol', 15000, 25, 'Meredakan Demam');
-  Product diapet = new Product('OB1', 'Diapet', 20000, 5, 'Meredakan batuk');
-  Product diataps = new Product('PR1', 'Diataps', 15000, 25, 'Meredakan Demam');
-  Product promag = new Product('OB1', 'Promag', 20000, 5, 'Meredakan batuk');
-  Product imbost = new Product('PR1', 'Imbost', 15000, 25, 'Meredakan Demam');
-  Product betadine = new Product('OB1', 'betadine', 20000, 5, 'Meredakan batuk');
-  Product handsaplast = new Product('PR1', 'Handsaplast', 15000, 25, 'Meredakan Demam');
+  // Product obatBatuk = new Product('OB1', 'Obat Batuk', 20000, 5, 'Meredakan batuk');
+  // Product paracetamol = new Product('PR1', 'Paracetamol', 15000, 25, 'Meredakan Demam');
+  // Product diapet = new Product('OB1', 'Diapet', 20000, 5, 'Meredakan batuk');
+  // Product diataps = new Product('PR1', 'Diataps', 15000, 25, 'Meredakan Demam');
+  // Product promag = new Product('OB1', 'Promag', 20000, 5, 'Meredakan batuk');
+  // Product imbost = new Product('PR1', 'Imbost', 15000, 25, 'Meredakan Demam');
+  // Product betadine = new Product('OB1', 'betadine', 20000, 5, 'Meredakan batuk');
+  // Product handsaplast = new Product('PR1', 'Handsaplast', 15000, 25, 'Meredakan Demam');
   // Transaction List Dummy Data
   List<Transaction> listTransaction1;
   List<Transaction> listTransaction2;
@@ -42,15 +42,15 @@ class _HistoryPageState extends State<HistoryPage> {
     super.initState();
 
     /* Test Dummy Datas */
-    listProductSold1 = [obatBatuk, obatBatuk, paracetamol,obatBatuk, obatBatuk, paracetamol,obatBatuk, obatBatuk, paracetamol];
+    // listProductSold1 = [obatBatuk, obatBatuk, paracetamol,obatBatuk, obatBatuk, paracetamol,obatBatuk, obatBatuk, paracetamol];
 
-    listProductSold2 = [paracetamol, paracetamol, obatBatuk, obatBatuk
-    , diapet, promag, imbost, betadine, handsaplast];
+    // listProductSold2 = [paracetamol, paracetamol, obatBatuk, obatBatuk
+    // , diapet, promag, imbost, betadine, handsaplast];
 
-    transaction1 = new Transaction(
-        21533, '25 November 2019', '12.00', listProductSold1, 'Tunai', 24000, 'Wisnu');
-    transaction2 = new Transaction(
-        35, '28 November 2019', '12.50', listProductSold2, 'OVO', 120000, 'Wisnu');
+    // transaction1 = new Transaction(
+    //     21533, '25 November 2019', '12.00', listProductSold1, 'Tunai', 24000, 'Wisnu');
+    // transaction2 = new Transaction(
+    //     35, '28 November 2019', '12.50', listProductSold2, 'OVO', 120000, 'Wisnu');
 
     listTransaction1 = [
       transaction1,

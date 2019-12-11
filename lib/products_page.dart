@@ -1,12 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:pharmacy_app/add_new_product_page.dart';
 import 'package:pharmacy_app/addnewproductwodget.dart';
+import 'package:pharmacy_app/product_details.dart';
+import 'config/client.dart';
+import 'data/queries.dart';
+import 'models/product.dart';
 import 'product_list_card.dart';
 import 'sort_dialog.dart';
 import 'sort_bottom_sheet.dart';
+import 'package:pharmacy_app/services/shared_preferences_service.dart';
+import 'package:hasura_connect/hasura_connect.dart';
+import 'package:intl/intl.dart';
+import 'package:string_validator/string_validator.dart';
 
 class ProductsPage extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -33,12 +45,28 @@ class _ProductsPageState extends State<ProductsPage> {
   static List<String> listCategoriesName = ['Generic', 'Obat batuk'];
   static List<bool> listCategoriesVal = [false, true];
 
-  static int incrementor = 1;
+  bool searchEnable = false;
+  String keyString = "";
+  int keyInt = 0;
+
+
+  void checkInternt() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+    }
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    // fillList();
+    checkInternt();
 
     if (listChipWidget.isNotEmpty) {
       listChipWidget.clear();
@@ -84,6 +112,8 @@ class _ProductsPageState extends State<ProductsPage> {
       setState(() => {searchController.text = barcodeScanRes});
     }
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +187,42 @@ class _ProductsPageState extends State<ProductsPage> {
                               ),
                             ),
                             autofocus: false,
+                            onSubmitted: (String key) {
+                              if (key.isEmpty){
+                                setState(() {
+                                  searchEnable = false;
+                                });
+                              } else if (key.isNotEmpty) {
+                                if (isNumeric(key)){
+                                  keyInt = int.parse(key);
+                                  keyString = "";
+                                } else {
+                                  keyString = "%" + key + "%";
+                                  keyInt = 0;
+                                }
+                                setState(() {
+                                  searchEnable = true;
+                                });
+                              }
+                            },
+                            onChanged: (String key) {
+                              if (key.isEmpty){
+                                setState(() {
+                                  searchEnable = false;
+                                });
+                              } else if (key.isNotEmpty) {
+                                if (isNumeric(key)){
+                                  keyInt = int.parse(key);
+                                  keyString = "";
+                                } else {
+                                  keyString = "%" + key + "%";
+                                  keyInt = 0;
+                                }
+                                setState(() {
+                                  searchEnable = true;
+                                });
+                              }
+                            },
                           ),
                         ),
                       ),
@@ -212,12 +278,55 @@ class _ProductsPageState extends State<ProductsPage> {
                   ),
                   child: Stack(
                     children: <Widget>[
-                      ListView.builder(
-                        itemCount: listProductItemCards.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: 0),
-                            child: listProductItemCards[index],
+                      // ListView.builder(
+                      //   itemCount: listProduct.length,
+                      //   itemBuilder: (context, index) {
+                      //     return ProductCard(listProduct[index]);
+                      //   },
+                      // ),
+                      Query(
+                        options: searchEnable ? 
+                              QueryOptions(
+                                document: Queries.searchData,
+                                variables: {
+                                  'keyString' : keyString,
+                                  'keyInt' : keyInt
+                                }) : 
+                                QueryOptions(document: Queries.fetchAll()),
+                        builder: (QueryResult result, {VoidCallback refetch}) {
+                          if (result.errors != null) {
+                            return Text(result.errors.toString());
+                          }
+                          if (result.loading) {
+                            return Text("Loading...");
+                          }
+                          List<dynamic> fetchedProduk = result.data['produk'];
+                          return ListView.builder(
+                            itemCount: fetchedProduk.length,
+                            itemBuilder: (context, index) {
+                              dynamic responseData = fetchedProduk[index];
+                              Product product = Product(
+                                  responseData['serial_id'],
+                                  responseData['nama_produk'],
+                                  responseData['harga'],
+                                  responseData['stocks'][0]['stock'],
+                                  DateTime.parse(responseData['exp']),
+                                  responseData['rak_produks'][0]['rak']);
+                              return InkWell(
+                                child: ProductCard(product),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return ProductDetailsPage(product, widget.scaffoldKey);
+                                      },
+                                    ),
+                                  );
+                                },
+                                splashColor: Colors.grey,
+                              );
+                            },
                           );
                         },
                       ),
@@ -229,7 +338,13 @@ class _ProductsPageState extends State<ProductsPage> {
                             child: Icon(Icons.add),
                             backgroundColor: Colors.blueAccent,
                             onPressed: () {
-                              if (this.mounted) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) {
+                                  return AddNewProductPage(widget.scaffoldKey);
+                                }),
+                              );
+                              /* if (this.mounted) {
                                 setState(
                                   () => listProductItemCards.add(
                                     InkWell(
@@ -240,7 +355,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                 );
                               } else {
                                 print("State not found");
-                              }
+                              } */
                             },
                           ),
                         ),
