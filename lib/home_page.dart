@@ -56,19 +56,40 @@ class _HomePageState extends State<HomePage> {
                                   // 'tanggal' : "2019-12-12"
                                 },
                               ),
-                              builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
-                                int todayIncome = 0;
-                                if (result.data != null) {
-                                  todayIncome = result.data['transaksi_aggregate']['aggregate']['sum']['total_harga'];
+                              builder: (QueryResult result,
+                                  {VoidCallback refetch, FetchMore fetchMore}) {
+                                int todayIncome;
+
+                                if (result.hasErrors) {
+                                  todayIncome = 0;
+                                }
+                                if (result.loading) {
+                                  return Text(
+                                    "Rp. 0",
+                                    style: TextStyle(
+                                        color: Colors.blue[800],
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15),
+                                    textAlign: TextAlign.right,
+                                  );
+                                }
+                                todayIncome = result.data['transaksi_aggregate']
+                                    ['aggregate']['sum']['total_harga'];
+                                if (todayIncome == null) {
+                                  todayIncome = 0;
+                                }
+                                if (todayIncome == null ||
+                                    result.data == null) {
+                                  todayIncome = 0;
                                 }
                                 return Text(
-                              "Rp. " + todayIncome.toString(),
-                              style: TextStyle(
-                                  color: Colors.blue[800],
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25),
-                              textAlign: TextAlign.end,
-                            );
+                                  "Rp. " + todayIncome.toString(),
+                                  style: TextStyle(
+                                      color: Colors.blue[800],
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25),
+                                  textAlign: TextAlign.end,
+                                );
                               },
                             ),
                           )
@@ -98,13 +119,29 @@ class _HomePageState extends State<HomePage> {
                                 builder: (QueryResult result,
                                     {VoidCallback refetch,
                                     FetchMore fetchMore}) {
+                                  int totalIncome;
+                                  if (result.hasErrors) {
+                                    totalIncome = 0;
+                                  }
+                                  if (result.loading) {
+                                    return Text(
+                                      "Rp. 0",
+                                      style: TextStyle(
+                                          color: Colors.blue[800],
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15),
+                                      textAlign: TextAlign.right,
+                                    );
+                                  }
+                                  totalIncome =
+                                      result.data['transaksi_aggregate']
+                                          ['aggregate']['sum']['total_harga'];
+                                  if (totalIncome == null) {
+                                    totalIncome = 0;
+                                  }
                                   // List<dynamic> fetchedData = result.data['transaksi_aggregate'];
                                   return Text(
-                                    "Rp. " +
-                                        result.data['transaksi_aggregate']
-                                                    ['aggregate']['sum']
-                                                ['total_harga']
-                                            .toString(),
+                                    "Rp. " + totalIncome.toString(),
                                     style: TextStyle(
                                         color: Colors.blue[800],
                                         fontWeight: FontWeight.w500,
