@@ -284,144 +284,99 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                             right: 10,
                             bottom: 5,
                           ),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                flex: 5,
-                                child: Container(
-                                  margin: EdgeInsets.only(right: 8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Colors.white,
+                          child: Container(
+                            // margin: EdgeInsets.only(right: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.white,
+                            ),
+                            child: TextField(
+                              controller: searchController,
+                              key: _searchTextField,
+                              textAlign: TextAlign.left,
+                              cursorColor: Colors.grey[300],
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.grey[700],
+                              ),
+                              decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                  onPressed: scanBarcode,
+                                  icon: Image(
+                                    image: AssetImage(
+                                        'images/001-barcode-scanner.png'),
+                                    color: Colors.grey,
                                   ),
-                                  child: TextField(
-                                    controller: searchController,
-                                    key: _searchTextField,
-                                    textAlign: TextAlign.left,
-                                    cursorColor: Colors.grey[300],
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.grey[700],
-                                    ),
-                                    decoration: InputDecoration(
-                                      suffixIcon: IconButton(
-                                        onPressed: scanBarcode,
-                                        icon: Image(
-                                          image: AssetImage(
-                                              'images/001-barcode-scanner.png'),
-                                          color: Colors.grey,
-                                        ),
-                                        focusColor: Colors.grey,
-                                        iconSize: 25,
-                                        hoverColor: Colors.grey,
-                                      ),
-                                      focusColor: Colors.grey[700],
-                                      hoverColor: Colors.grey[700],
-                                      prefixIcon: Icon(
-                                        Icons.search,
-                                        color: const Color(0xffF3F2F7),
-                                        size: 30,
-                                      ),
-                                      contentPadding: EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 17),
-                                      hintText: "Search product",
-                                      hintStyle: TextStyle(
-                                          color: const Color(0xffF3F2F7)),
-                                      border: OutlineInputBorder(),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                            color: const Color(0xffF3F2F7),
-                                            width: 2.5),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                            width: 2.5,
-                                            color: const Color(0xffF3F2F7)),
-                                      ),
-                                    ),
-                                    autofocus: false,
-                                    onSubmitted: (String key) {
-                                      if (key.isEmpty) {
-                                        setState(() {
-                                          searchEnable = false;
-                                        });
-                                      } else if (key.isNotEmpty) {
-                                        if (isNumeric(key)) {
-                                          keyInt = int.parse(key);
-                                          keyString = "";
-                                        } else {
-                                          keyString = "%" + key + "%";
-                                          keyInt = 0;
-                                        }
-                                        setState(() {
-                                          searchEnable = true;
-                                        });
-                                      }
-                                    },
-                                    onChanged: (String key) {
-                                      if (key.isEmpty) {
-                                        setState(() {
-                                          searchEnable = false;
-                                        });
-                                      } else if (key.isNotEmpty) {
-                                        if (isNumeric(key)) {
-                                          keyInt = int.parse(key);
-                                          keyString = "";
-                                        } else {
-                                          keyString = "%" + key + "%";
-                                          keyInt = 0;
-                                        }
-                                        setState(() {
-                                          searchEnable = true;
-                                        });
-                                      }
-                                    },
-                                  ),
+                                  focusColor: Colors.grey,
+                                  iconSize: 25,
+                                  hoverColor: Colors.grey,
+                                ),
+                                focusColor: Colors.grey[700],
+                                hoverColor: Colors.grey[700],
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  color: const Color(0xffF3F2F7),
+                                  size: 30,
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 17),
+                                hintText: "Search product",
+                                hintStyle: TextStyle(
+                                    color: const Color(0xffF3F2F7)),
+                                border: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                      color: const Color(0xffF3F2F7),
+                                      width: 2.5),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(
+                                      width: 2.5,
+                                      color: const Color(0xffF3F2F7)),
                                 ),
                               ),
-                              Expanded(
-                                flex: 1,
-                                child: RaisedButton(
-                                  splashColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  hoverElevation: 0,
-                                  focusElevation: 0,
-                                  highlightElevation: 0,
-                                  highlightColor: Colors.grey[200],
-                                  shape: RoundedRectangleBorder(
-                                      side: BorderSide(
-                                        color: const Color(0xffF3F2F7),
-                                        width: 2.5,
-                                      ),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  color: Colors.white,
-                                  disabledElevation: 0,
-                                  elevation: 0,
-                                  child: SizedBox(
-                                    height: 57,
-                                    child: Container(
-                                      padding: EdgeInsets.only(left: 0),
-                                      child: Icon(
-                                        Icons.sort,
-                                        size: 35,
-                                        color: const Color(0xffF3F2F7),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    showSortBottomSheet();
-                                  },
-                                ),
-                              ),
-                            ],
+                              autofocus: false,
+                              onSubmitted: (String key) {
+                                if (key.isEmpty) {
+                                  setState(() {
+                                    searchEnable = false;
+                                  });
+                                } else if (key.isNotEmpty) {
+                                  if (isNumeric(key)) {
+                                    keyInt = int.parse(key);
+                                    keyString = "";
+                                  } else {
+                                    keyString = "%" + key + "%";
+                                    keyInt = 0;
+                                  }
+                                  setState(() {
+                                    searchEnable = true;
+                                  });
+                                }
+                              },
+                              onChanged: (String key) {
+                                if (key.isEmpty) {
+                                  setState(() {
+                                    searchEnable = false;
+                                  });
+                                } else if (key.isNotEmpty) {
+                                  if (isNumeric(key)) {
+                                    keyInt = int.parse(key);
+                                    keyString = "";
+                                  } else {
+                                    keyString = "%" + key + "%";
+                                    keyInt = 0;
+                                  }
+                                  setState(() {
+                                    searchEnable = true;
+                                  });
+                                }
+                              },
+                            ),
                           ),
                         ),
-                        Wrap(
-                          spacing: 2,
-                          children: listChipWidget,
-                        )
                       ],
                     ),
                     Expanded(
@@ -709,6 +664,7 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                                                                 await showDialog(
                                                                     context:
                                                                         context,
+                                                                        barrierDismissible: false,
                                                                     builder:
                                                                         (BuildContext
                                                                             context) {
@@ -719,8 +675,10 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                                                                   (val) {
                                                                     setState(
                                                                       () {
-                                                                        soldProductQty[index] =
+                                                                        if (val != null) {
+                                                                          soldProductQty[index] =
                                                                             val;
+                                                                        }
                                                                       },
                                                                     );
                                                                   },
@@ -943,12 +901,12 @@ class _EditItemDialogState extends State<EditItemDialog> {
             child: FlatButton(
               onPressed: () {
                 setState(() {
-                  setState(() {
-                    widget.qty += 1;
-                  });
+                  if (widget.qty != 0) {
+                    widget.qty -= 1;
+                  }
                 });
               },
-              child: Icon(Icons.add),
+              child: Icon(Icons.remove),
             ),
           ),
           Expanded(
@@ -962,21 +920,28 @@ class _EditItemDialogState extends State<EditItemDialog> {
             child: FlatButton(
               onPressed: () {
                 setState(() {
-                  if (widget.qty != 0) {
-                    widget.qty -= 1;
-                  }
+                  setState(() {
+                    widget.qty += 1;
+                  });
                 });
               },
-              child: Icon(Icons.remove),
+              child: Icon(Icons.add),
             ),
           ),
         ],
       ),
       actions: <Widget>[
-        RaisedButton(
+        FlatButton(
           child: Text(
-            "Apply",
-            style: TextStyle(color: Colors.white),
+            "CANCEL",
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        FlatButton(
+          child: Text(
+            "APPLY",
           ),
           onPressed: () {
             Navigator.pop(context, widget.qty);

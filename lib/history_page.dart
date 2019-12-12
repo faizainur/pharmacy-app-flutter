@@ -98,13 +98,14 @@ class _HistoryPageState extends State<HistoryPage> {
     //     return transaksi;
     //   },
     // );
-  List<Product> soldProducts = List<Product>();
+    List<Product> soldProducts = List<Product>();
     Query(
       options: QueryOptions(
         document: Queries.getSoldProduct,
         variables: {'listProduct': listId},
       ),
-      builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
+      builder: (QueryResult result,
+          {VoidCallback refetch, FetchMore fetchMore}) {
         if (result.errors != null) {
           return Text(result.errors.toString());
         }
@@ -126,7 +127,7 @@ class _HistoryPageState extends State<HistoryPage> {
         return Text("Success");
       },
     );
-    
+
     return soldProducts;
   }
 
@@ -151,7 +152,8 @@ class _HistoryPageState extends State<HistoryPage> {
           options: QueryOptions(
             document: Queries.getTotalPenjualanPerBulan,
           ),
-          builder: (QueryResult resultPerBulan, {VoidCallback refetch, FetchMore fetchMore}) {
+          builder: (QueryResult resultPerBulan,
+              {VoidCallback refetch, FetchMore fetchMore}) {
             if (resultPerBulan.errors != null) {
               return Text(resultPerBulan.errors.toString());
             }
@@ -181,7 +183,8 @@ class _HistoryPageState extends State<HistoryPage> {
                         Expanded(
                             flex: 1,
                             child: Text(
-                              responseData['tanggal'].toString(),
+                              DateFormat.yMMMMd("en_US").format(
+                                  DateTime.parse(responseData['tanggal'])),
                               style:
                                   TextStyle(fontSize: 15, color: Colors.grey),
                             )
@@ -221,11 +224,10 @@ class _HistoryPageState extends State<HistoryPage> {
                       }
                       List<dynamic> fetchedTransaksi =
                           transaksiItem.data['transaksi'];
-                      
 
                       // fetchedTransaksi.forEach(
                       //   (v) {
-                          
+
                       //   },
                       // );
 
@@ -235,7 +237,8 @@ class _HistoryPageState extends State<HistoryPage> {
                         (transaksi) {
                           List<int> soldProductId = List<int>();
                           List<int> soldProductQty = List<int>();
-                          List<dynamic> soldProductList = transaksi['sold_product'];
+                          List<dynamic> soldProductList =
+                              transaksi['sold_product'];
                           soldProductList.forEach(
                             (soldProduct) {
                               soldProductId.add(soldProduct[0]);
@@ -244,17 +247,21 @@ class _HistoryPageState extends State<HistoryPage> {
                           );
                           listTiles.add(
                             HistoryItem(
-                              Transaction(transaksi['transaksi_id'],
-                              DateFormat.yMMMMd("en_US").format(DateTime.parse(transaksi['tanggal'])),
-                              transaksi['jam'].substring(0,5),
-                              soldProductId,
-                              soldProductQty,
-                              transaksi['total_harga']),
+                              Transaction(
+                                  transaksi['transaksi_id'],
+                                  DateFormat.yMMMMd("en_US").format(
+                                      DateTime.parse(transaksi['tanggal'])),
+                                  transaksi['jam'].substring(0, 5),
+                                  soldProductId,
+                                  soldProductQty,
+                                  transaksi['total_harga']),
                             ),
                           );
                         },
                       );
-                      return Wrap(children: listTiles,);
+                      return Wrap(
+                        children: listTiles,
+                      );
                     },
                   ),
                 );

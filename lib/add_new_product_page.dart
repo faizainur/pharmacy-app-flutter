@@ -29,6 +29,8 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
 
   String expDate;
 
+  bool _validate = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,34 +67,36 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
                   color: Colors.grey[700],
                 ),
                 decoration: InputDecoration(
-                    // suffixIcon: IconButton(
-                    //   onPressed: scanBarcode,
-                    //   icon: Image(
-                    //     image: AssetImage('images/001-barcode-scanner.png'),
-                    //     color: Colors.grey,
-                    //   ),
-                    //   focusColor: Colors.grey,
-                    //   iconSize: 25,
-                    //   hoverColor: Colors.grey,
-                    // ),Text
-                    focusColor: Colors.grey[700],
-                    hoverColor: Colors.grey[700],
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 10, vertical: 17),
-                    hintText: "Serial ID",
-                    // hintStyle: TextStyle(color: const Color(0xffF3F2F7)),
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          color: Colors.blueAccent, width: 2.5),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          width: 2.5, color: const Color(0xffF3F2F7)),
-                    ),
-                    labelText: "Serial ID"),
+                  // suffixIcon: IconButton(
+                  //   onPressed: scanBarcode,
+                  //   icon: Image(
+                  //     image: AssetImage('images/001-barcode-scanner.png'),
+                  //     color: Colors.grey,
+                  //   ),
+                  //   focusColor: Colors.grey,
+                  //   iconSize: 25,
+                  //   hoverColor: Colors.grey,
+                  // ),Text
+                  focusColor: Colors.grey[700],
+                  hoverColor: Colors.grey[700],
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 17),
+                  hintText: "Serial ID",
+                  // hintStyle: TextStyle(color: const Color(0xffF3F2F7)),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide:
+                        const BorderSide(color: Colors.blueAccent, width: 2.5),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        width: 2.5, color: const Color(0xffF3F2F7)),
+                  ),
+                  labelText: "Serial ID",
+                  errorText: _validate ? 'This field cannot be empty' : null,
+                ),
                 autofocus: false,
               ),
             ),
@@ -108,34 +112,36 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
                   color: Colors.grey[700],
                 ),
                 decoration: InputDecoration(
-                    // suffixIcon: IconButton(
-                    //   onPressed: scanBarcode,
-                    //   icon: Image(
-                    //     image: AssetImage('images/001-barcode-scanner.png'),
-                    //     color: Colors.grey,
-                    //   ),
-                    //   focusColor: Colors.grey,
-                    //   iconSize: 25,
-                    //   hoverColor: Colors.grey,
-                    // ),Text
-                    focusColor: Colors.grey[700],
-                    hoverColor: Colors.grey[700],
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 10, vertical: 17),
-                    hintText: "Product Name",
-                    // hintStyle: TextStyle(color: const Color(0xffF3F2F7)),
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          color: Colors.blueAccent, width: 2.5),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          width: 2.5, color: const Color(0xffF3F2F7)),
-                    ),
-                    labelText: "Product Name"),
+                  // suffixIcon: IconButton(
+                  //   onPressed: scanBarcode,
+                  //   icon: Image(
+                  //     image: AssetImage('images/001-barcode-scanner.png'),
+                  //     color: Colors.grey,
+                  //   ),
+                  //   focusColor: Colors.grey,
+                  //   iconSize: 25,
+                  //   hoverColor: Colors.grey,
+                  // ),Text
+                  focusColor: Colors.grey[700],
+                  hoverColor: Colors.grey[700],
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 17),
+                  hintText: "Product Name",
+                  // hintStyle: TextStyle(color: const Color(0xffF3F2F7)),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide:
+                        const BorderSide(color: Colors.blueAccent, width: 2.5),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        width: 2.5, color: const Color(0xffF3F2F7)),
+                  ),
+                  labelText: "Product Name",
+                  errorText: _validate ? 'This field cannot be empty' : null,
+                ),
                 autofocus: false,
               ),
             ),
@@ -151,34 +157,36 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
                   color: Colors.grey[700],
                 ),
                 decoration: InputDecoration(
-                    // suffixIcon: IconButton(
-                    //   onPressed: scanBarcode,
-                    //   icon: Image(
-                    //     image: AssetImage('images/001-barcode-scanner.png'),
-                    //     color: Colors.grey,
-                    //   ),
-                    //   focusColor: Colors.grey,
-                    //   iconSize: 25,
-                    //   hoverColor: Colors.grey,
-                    // ),Text
-                    focusColor: Colors.grey[700],
-                    hoverColor: Colors.grey[700],
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 10, vertical: 17),
-                    hintText: "Price",
-                    // hintStyle: TextStyle(color: const Color(0xffF3F2F7)),
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          color: Colors.blueAccent, width: 2.5),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          width: 2.5, color: const Color(0xffF3F2F7)),
-                    ),
-                    labelText: "Price"),
+                  // suffixIcon: IconButton(
+                  //   onPressed: scanBarcode,
+                  //   icon: Image(
+                  //     image: AssetImage('images/001-barcode-scanner.png'),
+                  //     color: Colors.grey,
+                  //   ),
+                  //   focusColor: Colors.grey,
+                  //   iconSize: 25,
+                  //   hoverColor: Colors.grey,
+                  // ),Text
+                  focusColor: Colors.grey[700],
+                  hoverColor: Colors.grey[700],
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 17),
+                  hintText: "Price",
+                  // hintStyle: TextStyle(color: const Color(0xffF3F2F7)),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide:
+                        const BorderSide(color: Colors.blueAccent, width: 2.5),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        width: 2.5, color: const Color(0xffF3F2F7)),
+                  ),
+                  labelText: "Price",
+                  errorText: _validate ? 'This field cannot be empty' : null,
+                ),
                 autofocus: false,
                 keyboardType: TextInputType.number,
               ),
@@ -195,34 +203,36 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
                   color: Colors.grey[700],
                 ),
                 decoration: InputDecoration(
-                    // suffixIcon: IconButton(
-                    //   onPressed: scanBarcode,
-                    //   icon: Image(
-                    //     image: AssetImage('images/001-barcode-scanner.png'),
-                    //     color: Colors.grey,
-                    //   ),
-                    //   focusColor: Colors.grey,
-                    //   iconSize: 25,
-                    //   hoverColor: Colors.grey,
-                    // ),Text
-                    focusColor: Colors.grey[700],
-                    hoverColor: Colors.grey[700],
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 10, vertical: 17),
-                    hintText: "Stock",
-                    // hintStyle: TextStyle(color: const Color(0xffF3F2F7)),
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          color: Colors.blueAccent, width: 2.5),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          width: 2.5, color: const Color(0xffF3F2F7)),
-                    ),
-                    labelText: "Stock"),
+                  // suffixIcon: IconButton(
+                  //   onPressed: scanBarcode,
+                  //   icon: Image(
+                  //     image: AssetImage('images/001-barcode-scanner.png'),
+                  //     color: Colors.grey,
+                  //   ),
+                  //   focusColor: Colors.grey,
+                  //   iconSize: 25,
+                  //   hoverColor: Colors.grey,
+                  // ),Text
+                  focusColor: Colors.grey[700],
+                  hoverColor: Colors.grey[700],
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 17),
+                  hintText: "Stock",
+                  // hintStyle: TextStyle(color: const Color(0xffF3F2F7)),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide:
+                        const BorderSide(color: Colors.blueAccent, width: 2.5),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        width: 2.5, color: const Color(0xffF3F2F7)),
+                  ),
+                  labelText: "Stock",
+                  errorText: _validate ? 'This field cannot be empty' : null,
+                ),
                 autofocus: false,
                 keyboardType: TextInputType.number,
               ),
@@ -239,34 +249,36 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
                   color: Colors.grey[700],
                 ),
                 decoration: InputDecoration(
-                    // suffixIcon: IconButton(
-                    //   onPressed: scanBarcode,
-                    //   icon: Image(
-                    //     image: AssetImage('images/001-barcode-scanner.png'),
-                    //     color: Colors.grey,
-                    //   ),
-                    //   focusColor: Colors.grey,
-                    //   iconSize: 25,
-                    //   hoverColor: Colors.grey,
-                    // ),Text
-                    focusColor: Colors.grey[700],
-                    hoverColor: Colors.grey[700],
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 10, vertical: 17),
-                    hintText: "No. Rak",
-                    // hintStyle: TextStyle(color: const Color(0xffF3F2F7)),
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          color: Colors.blueAccent, width: 2.5),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          width: 2.5, color: const Color(0xffF3F2F7)),
-                    ),
-                    labelText: "No. Rak"),
+                  // suffixIcon: IconButton(
+                  //   onPressed: scanBarcode,
+                  //   icon: Image(
+                  //     image: AssetImage('images/001-barcode-scanner.png'),
+                  //     color: Colors.grey,
+                  //   ),
+                  //   focusColor: Colors.grey,
+                  //   iconSize: 25,
+                  //   hoverColor: Colors.grey,
+                  // ),Text
+                  focusColor: Colors.grey[700],
+                  hoverColor: Colors.grey[700],
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 17),
+                  hintText: "No. Rak",
+                  // hintStyle: TextStyle(color: const Color(0xffF3F2F7)),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide:
+                        const BorderSide(color: Colors.blueAccent, width: 2.5),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        width: 2.5, color: const Color(0xffF3F2F7)),
+                  ),
+                  labelText: "No. Rak",
+                  errorText: _validate ? 'This field cannot be empty' : null,
+                ),
                 autofocus: false,
               ),
             ),
@@ -282,38 +294,40 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
                   color: Colors.grey[700],
                 ),
                 decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        DatePicker.showDatePicker(context,
-                            showTitleActions: true, onConfirm: (date) {
-                          expController.text =
-                              DateFormat("dd-MM-yyyy").format(date);
-                          expDate = date.toString();
-                        });
-                      },
-                      icon: Icon(FontAwesomeIcons.calendar),
-                      focusColor: Colors.grey,
-                      iconSize: 25,
-                      hoverColor: Colors.grey,
-                    ),
-                    focusColor: Colors.grey[700],
-                    hoverColor: Colors.grey[700],
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 10, vertical: 17),
-                    hintText: "Expired Date",
-                    // hintStyle: TextStyle(color: const Color(0xffF3F2F7)),
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          color: Colors.blueAccent, width: 2.5),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          width: 2.5, color: const Color(0xffF3F2F7)),
-                    ),
-                    labelText: "Expired Date"),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      DatePicker.showDatePicker(context, showTitleActions: true,
+                          onConfirm: (date) {
+                        expController.text =
+                            DateFormat("dd-MM-yyyy").format(date);
+                        expDate = date.toString();
+                      });
+                    },
+                    icon: Icon(FontAwesomeIcons.calendar),
+                    focusColor: Colors.grey,
+                    iconSize: 25,
+                    hoverColor: Colors.grey,
+                  ),
+                  focusColor: Colors.grey[700],
+                  hoverColor: Colors.grey[700],
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 17),
+                  hintText: "Expired Date",
+                  // hintStyle: TextStyle(color: const Color(0xffF3F2F7)),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide:
+                        const BorderSide(color: Colors.blueAccent, width: 2.5),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                        width: 2.5, color: const Color(0xffF3F2F7)),
+                  ),
+                  labelText: "Expired Date",
+                  errorText: _validate ? 'This field cannot be empty' : null,
+                ),
                 autofocus: false,
               ),
             ),
@@ -352,14 +366,40 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
                   return RaisedButton(
                     elevation: 0,
                     onPressed: () {
-                      runMutation({
-                        'serialId': int.parse(serialIdController.text),
-                        'namaProduk': productNameController.text,
-                        'stock': int.parse(stokController.text),
-                        'exp': expDate,
-                        'harga': int.parse(hargaController.text),
-                        'rak': int.parse(rakController.text)
-                      });
+                      if (serialIdController.text.isEmpty) {
+                        setState(() {
+                          _validate = true;
+                        });
+                      } else if (productNameController.text.isEmpty) {
+                        setState(() {
+                          _validate = true;
+                        });
+                      } else if (rakController.text.isEmpty) {
+                        setState(() {
+                          _validate = true;
+                        });
+                      } else if (stokController.text.isEmpty) {
+                        setState(() {
+                          _validate = true;
+                        });
+                      } else if (hargaController.text.isEmpty) {
+                        setState(() {
+                          _validate = true;
+                        });
+                      } else if (expController.text.isEmpty) {
+                        setState(() {
+                          _validate = true;
+                        });
+                      } else {
+                        runMutation({
+                          'serialId': int.parse(serialIdController.text),
+                          'namaProduk': productNameController.text,
+                          'stock': int.parse(stokController.text),
+                          'exp': expDate,
+                          'harga': int.parse(hargaController.text),
+                          'rak': int.parse(rakController.text)
+                        });
+                      }
                     },
                     color: Colors.blue[800],
                     child: SizedBox(

@@ -32,6 +32,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   final stokController = TextEditingController();
 
   GlobalKey<ScaffoldState> _scafKey = GlobalKey<ScaffoldState>();
+  bool _validate = false;
 
   @override
   void initState() {
@@ -124,7 +125,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       borderSide: const BorderSide(
                           width: 2.5, color: const Color(0xffF3F2F7)),
                     ),
-                    labelText: "Serial ID"),
+                    labelText: "Serial ID",
+                  errorText: _validate ? 'This field cannot be empty' : null,),
                 autofocus: false,
               ),
             ),
@@ -167,7 +169,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       borderSide: const BorderSide(
                           width: 2.5, color: const Color(0xffF3F2F7)),
                     ),
-                    labelText: "Product Name"),
+                    labelText: "Product Name",
+                  errorText: _validate ? 'This field cannot be empty' : null,),
                 autofocus: false,
               ),
             ),
@@ -210,7 +213,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       borderSide: const BorderSide(
                           width: 2.5, color: const Color(0xffF3F2F7)),
                     ),
-                    labelText: "Price"),
+                    labelText: "Price",
+                  errorText: _validate ? 'This field cannot be empty' : null,),
                 autofocus: false,
                 keyboardType: TextInputType.number,
               ),
@@ -254,7 +258,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       borderSide: const BorderSide(
                           width: 2.5, color: const Color(0xffF3F2F7)),
                     ),
-                    labelText: "Stock"),
+                    labelText: "Stock",
+                  errorText: _validate ? 'This field cannot be empty' : null,),
                 autofocus: false,
                 keyboardType: TextInputType.number,
               ),
@@ -298,7 +303,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       borderSide: const BorderSide(
                           width: 2.5, color: const Color(0xffF3F2F7)),
                     ),
-                    labelText: "No. Rak"),
+                    labelText: "No. Rak",
+                  errorText: _validate ? 'This field cannot be empty' : null,),
                 autofocus: false,
               ),
             ),
@@ -347,7 +353,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       borderSide: const BorderSide(
                           width: 2.5, color: const Color(0xffF3F2F7)),
                     ),
-                    labelText: "Expired Date"),
+                    labelText: "Expired Date",
+                  errorText: _validate ? 'This field cannot be empty' : null,),
                 autofocus: false,
               ),
             ),
@@ -367,30 +374,30 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       onPressed: () {
                         //
                         showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Delete Data?"),
-                                  content: const Text(
-                                      "After you press OK, data will be no longer available."),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      child: const Text("CANCEL"),
-                                      onPressed: () => Navigator.pop(context),
-                                    ),
-                                    FlatButton(
-                                      child: const Text("DELETE"),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        runMutation({
-                                          'serialId': widget.product.serialId,
-                                        });
-                                      },
-                                    )
-                                  ],
-                                );
-                              });
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Delete Data?"),
+                                content: const Text(
+                                    "After you press OK, data will be no longer available."),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    child: const Text("CANCEL"),
+                                    onPressed: () => Navigator.pop(context),
+                                  ),
+                                  FlatButton(
+                                    child: const Text("DELETE"),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      runMutation({
+                                        'serialId': widget.product.serialId,
+                                      });
+                                    },
+                                  )
+                                ],
+                              );
+                            });
                       },
                       color: Colors.grey[50],
                       child: SizedBox(
@@ -438,15 +445,46 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       //     SnackBar(content: Text("data"),)
                       //   );
                       // },
-                      onPressed: () => runMutation({
-                        'oldSerialId': widget.product.serialId,
-                        'newSerialId': int.parse(serialIdController.text),
-                        'namaProduk': productNameController.text,
-                        'harga': int.parse(hargaController.text),
-                        'rak': int.parse(rakController.text),
-                        'stock': int.parse(stokController.text),
-                        'exp': widget.product.exp.toString()
-                      }),
+                      onPressed: () {
+                        if (serialIdController.text.isEmpty) {
+                          setState(() {
+                            _validate = true;
+                          });
+                        } else if (productNameController.text.isEmpty) {
+                          setState(() {
+                            _validate = true;
+                          });
+                        } else if (rakController.text.isEmpty) {
+                          setState(() {
+                            _validate = true;
+                          });
+                        } else if (stokController.text.isEmpty) {
+                          setState(() {
+                            _validate = true;
+                          });
+                        } else if (hargaController.text.isEmpty) {
+                          setState(() {
+                            _validate = true;
+                          });
+                        } else if (expController.text.isEmpty) {
+                          setState(() {
+                            _validate = true;
+                          });
+                        } else {
+                          runMutation(
+                            {
+                              'oldSerialId': widget.product.serialId,
+                              'newSerialId': int.parse(serialIdController.text),
+                              'namaProduk': productNameController.text,
+                              'harga': int.parse(hargaController.text),
+                              'rak': int.parse(rakController.text),
+                              'stock': int.parse(stokController.text),
+                              'exp': widget.product.exp.toString()
+                            },
+                          );
+                        }
+                      },
+
                       color: Colors.blue[800],
                       child: SizedBox(
                         height: 50,

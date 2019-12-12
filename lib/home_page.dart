@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
+
+import 'data/queries.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,294 +22,150 @@ class _HomePageState extends State<HomePage> {
       child: ListView(
         padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
         children: <Widget>[
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Card(
-                  elevation: 2,
-                  child: SizedBox(
-                    width: 80,
-                    height: 130,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            child: Text("Monthly Income"),
-                            flex: 5,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Divider(
-                              height: 1,
-                              indent: 20,
-                              endIndent: 20,
-                              
-                            ),
-                          ),
-                          Expanded(
-                            flex: 25,
-                            child: Center(
-                                child: Text("500000",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 40))),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Card(
-                  elevation: 2,
-                  child: SizedBox(
-                    width: 80,
-                    height: 130,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            child: Text("Profit"),
-                            flex: 5,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Divider(
-                              height: 1,
-                              indent: 20,
-                              endIndent: 20,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 25,
-                            child: Center(
-                                child: Text("10000",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 40))),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),Row(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Card(
-                  elevation: 2,
-                  child: SizedBox(
-                    width: 80,
-                    height: 130,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            child: Text("Monthly Income"),
-                            flex: 5,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Divider(
-                              height: 1,
-                              indent: 20,
-                              endIndent: 20,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 25,
-                            child: Center(
-                                child: Text("500000",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 40))),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Card(
-                  elevation: 2,
-                  child: SizedBox(
-                    width: 80,
-                    height: 130,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            child: Text("Profit"),
-                            flex: 5,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Divider(
-                              height: 1,
-                              indent: 20,
-                              endIndent: 20,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 25,
-                            child: Center(
-                                child: Text("10000",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 40))),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Card(
-                  elevation: 2,
-                  child: SizedBox(
-                    width: 80,
-                    height: 130,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            child: Text("Monthly Income"),
-                            flex: 5,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Divider(
-                              height: 1,
-                              indent: 20,
-                              endIndent: 20,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 25,
-                            child: Center(
-                                child: Text("500000",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 40))),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Card(
-                  elevation: 2,
-                  child: SizedBox(
-                    width: 80,
-                    height: 130,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            child: Text("Profit"),
-                            flex: 5,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Divider(
-                              height: 1,
-                              indent: 20,
-                              endIndent: 20,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 25,
-                            child: Center(
-                                child: Text("10000",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 40))),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
           Card(
             elevation: 2,
             child: SizedBox(
-              height: 285,
+              height: 100,
               child: Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: <Widget>[
-                    Expanded(flex: 1, child: Text("Recent Transactions")),
                     Expanded(
                       flex: 1,
-                      child: Divider(
-                        height: 2,
-                        indent: 5,
-                        endIndent: 5,
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              "Today",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey[800],
+                                  fontSize: 25),
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Query(
+                              options: QueryOptions(
+                                document: Queries.getTodayIncome,
+                                variables: {
+                                  'tanggal': DateFormat("yyyy-MM-dd")
+                                      .format(DateTime.now())
+                                  // 'tanggal' : "2019-12-12"
+                                },
+                              ),
+                              builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
+                                int todayIncome = 0;
+                                if (result.data != null) {
+                                  todayIncome = result.data['transaksi_aggregate']['aggregate']['sum']['total_harga'];
+                                }
+                                return Text(
+                              "Rp. " + todayIncome.toString(),
+                              style: TextStyle(
+                                  color: Colors.blue[800],
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25),
+                              textAlign: TextAlign.end,
+                            );
+                              },
+                            ),
+                          )
+                        ],
                       ),
                     ),
                     Expanded(
-                      flex: 9,
-                      child: ListView(
-                        physics: NeverScrollableScrollPhysics(),
+                      flex: 1,
+                      child: Row(
                         children: <Widget>[
-                          ListTile(
-                            leading: Icon(Icons.attach_money),
-                            title: Text("Halloo"),
-                            subtitle: Text("data"),
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              "Total Income",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  // fontWeight: FontWeight.w500,
+                                  color: Colors.grey[800],
+                                  fontSize: 13),
+                            ),
                           ),
-                          ListTile(
-                            leading: Icon(Icons.attach_money),
-                            title: Text("Halloo"),
-                            subtitle: Text("data"),
-                          ),
-                          ListTile(
-                            leading: Icon(Icons.attach_money),
-                            title: Text("Halloo"),
-                            subtitle: Text("data"),
-                          ),
+                          Expanded(
+                              flex: 1,
+                              child: Query(
+                                options:
+                                    QueryOptions(document: Queries.totalIncome),
+                                builder: (QueryResult result,
+                                    {VoidCallback refetch,
+                                    FetchMore fetchMore}) {
+                                  // List<dynamic> fetchedData = result.data['transaksi_aggregate'];
+                                  return Text(
+                                    "Rp. " +
+                                        result.data['transaksi_aggregate']
+                                                    ['aggregate']['sum']
+                                                ['total_harga']
+                                            .toString(),
+                                    style: TextStyle(
+                                        color: Colors.blue[800],
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15),
+                                    textAlign: TextAlign.right,
+                                  );
+                                },
+                              ))
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
             ),
           ),
+          // Card(
+          //   elevation: 2,
+          //   child: SizedBox(
+          //     height: 285,
+          //     child: Padding(
+          //       padding: EdgeInsets.all(10),
+          //       child: Column(
+          //         children: <Widget>[
+          //           Expanded(flex: 1, child: Text("Recent Transactions")),
+          //           Expanded(
+          //             flex: 1,
+          //             child: Divider(
+          //               height: 2,
+          //               indent: 5,
+          //               endIndent: 5,
+          //             ),
+          //           ),
+          //           Expanded(
+          //             flex: 9,
+          //             child: ListView(
+          //               physics: NeverScrollableScrollPhysics(),
+          //               children: <Widget>[
+          //                 ListTile(
+          //                   leading: Icon(Icons.attach_money),
+          //                   title: Text("Halloo"),
+          //                   subtitle: Text("data"),
+          //                 ),
+          //                 ListTile(
+          //                   leading: Icon(Icons.attach_money),
+          //                   title: Text("Halloo"),
+          //                   subtitle: Text("data"),
+          //                 ),
+          //                 ListTile(
+          //                   leading: Icon(Icons.attach_money),
+          //                   title: Text("Halloo"),
+          //                   subtitle: Text("data"),
+          //                 ),
+          //               ],
+          //             ),
+          //           )
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     ));

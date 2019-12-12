@@ -28,6 +28,7 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
   double _cardHeight;
   double _cardWidth;
 
+
   @override
   void initState() {
     // TODO: implement initState

@@ -4,23 +4,35 @@ class Queries {
   static String fetchAll() {
     String str = """
   query MyQuery {
-    produk {
-      serial_id
-      nama_produk
-      stocks {
-        stock
-      }
-      harga
-      exp
-      rak_produks {
-        rak
-      }
+  produk(order_by: {nama_produk: asc}) {
+    serial_id
+    nama_produk
+    stocks {
+      stock
+    }
+    harga
+    exp
+    rak_produks {
+      rak
     }
   }
+}
   """;
 
   return str;
   }
+
+  static String totalIncome = """
+  query totalIncome {
+    transaksi_aggregate {
+      aggregate {
+        sum {
+          total_harga
+        }
+      }
+    }
+  }
+  """;
 
   static String searchData = """
 query Search(\$keyString: String!, \$keyInt:bigint!) {
@@ -154,5 +166,18 @@ mutation newTransaction(\$jam:time!,\$tanggal:date!,\$soldProduct:_int8!,\$total
       }
     }
   }
+  """;
+
+  static String getTodayIncome = """
+  query getTodayIncome(\$tanggal:date!) {
+  transaksi_aggregate(where: {tanggal: {_eq: \$tanggal}}) {
+    aggregate {
+      sum {
+        total_harga
+      }
+    }
+  }
+}
+
   """;
 }
