@@ -58,7 +58,7 @@ class AddNewProductButton extends MaterialButton {
           shape: shape,
           clipBehavior: clipBehavior,
           focusNode: focusNode,
-          autofocus: autofocus,
+          // autofocus: autofocus,
           materialTapTargetSize: materialTapTargetSize,
           animationDuration: animationDuration,
           child: child,
@@ -90,7 +90,7 @@ class AddNewProductButton extends MaterialButton {
         borderRadius: BorderRadius.circular(10),
       ),
       focusNode: focusNode,
-      autofocus: autofocus,
+      // autofocus: autofocus,
       animationDuration: buttonTheme.getAnimationDuration(this),
       materialTapTargetSize: buttonTheme.getMaterialTapTargetSize(this),
       child: Center(

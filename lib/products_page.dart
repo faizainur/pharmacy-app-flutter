@@ -16,7 +16,6 @@ import 'product_list_card.dart';
 import 'sort_dialog.dart';
 import 'sort_bottom_sheet.dart';
 import 'package:pharmacy_app/services/shared_preferences_service.dart';
-import 'package:hasura_connect/hasura_connect.dart';
 import 'package:intl/intl.dart';
 import 'package:string_validator/string_validator.dart';
 
@@ -293,7 +292,7 @@ class _ProductsPageState extends State<ProductsPage> {
                                   'keyInt' : keyInt
                                 }) : 
                                 QueryOptions(document: Queries.fetchAll()),
-                        builder: (QueryResult result, {VoidCallback refetch}) {
+                        builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
                           if (result.errors != null) {
                             return Text(result.errors.toString());
                           }

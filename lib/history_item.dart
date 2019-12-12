@@ -21,12 +21,15 @@ class _HistoryItemState extends State<HistoryItem> {
       child: InkWell(
         onTap: () {
           /* TODO : Navigate to transaction details page, passing transaction data */
-
+          print(widget.transaction.listProductId);
+          print(widget.transaction.listProductQty);
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (BuildContext context) {
-              return TransactionDetailsPage(widget.transaction);
-            }),
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return TransactionDetailsPage(widget.transaction);
+              },
+            ),
           );
         },
         child: Container(

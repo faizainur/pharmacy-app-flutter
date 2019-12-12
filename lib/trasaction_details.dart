@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:pharmacy_app/data/queries.dart';
 import 'package:pharmacy_app/models/product.dart';
 import 'package:pharmacy_app/models/transaction.dart';
 import 'package:expandable/expandable.dart';
@@ -32,23 +34,23 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
     super.initState();
     itemList.clear();
     itemTileDetails.clear();
-    widget.transaction.listProductSold.forEach(
-      (v) {
-        itemList.update(
-          v,
-          (val) => val += 1,
-          ifAbsent: () => 1,
-        );
-      },
-    );
+    // widget.transaction.listProductSold.forEach(
+    //   (v) {
+    //     itemList.update(
+    //       v,
+    //       (val) => val += 1,
+    //       ifAbsent: () => 1,
+    //     );
+    //   },
+    // );
 
-    itemList.forEach(
-      (k, v) {
-        String name = k.productName;
-        print("$name $v");
-        itemTileDetails.add(ItemTile(k, v));
-      },
-    );
+    // itemList.forEach(
+    //   (k, v) {
+    //     String name = k.productName;
+    //     print("$name $v");
+    // itemTileDetails.add(ItemTile(k, v));
+    //   },
+    // );
   }
 
   @override
@@ -121,30 +123,66 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                 left: 10,
                 bottom: 8,
               ),
-              child: Row(
+              child: Column(
                 children: <Widget>[
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      "Transaction ID",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Transaction ID",
+                            style:
+                                TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              "#" + widget.transaction.transactionId.toString(),
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.centerRight,
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                children: <Widget>[
+                    Expanded(
+                      flex: 1,
                       child: Text(
-                        "#" + widget.transaction.transactionId.toString(),
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey[700],
-                        ),
+                        "Total",
+                        style:
+                            TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                       ),
                     ),
-                  )
+                    Expanded(
+                      flex: 1,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "Rp. " + widget.transaction.totalPrice.toString(),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                      ),
+                    )
+                ],
+              ),
+                  ),
                 ],
               ),
             ),
@@ -220,7 +258,7 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                               ),
                               Expanded(
                                 flex: 8,
-                                // child: Text(widget.transaction.payMethod),
+                                child: Text("Payment Method"),
                               )
                             ],
                           ),
@@ -238,8 +276,9 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                                 ),
                               ),
                               Expanded(
-                                  flex: 8,
-                                  child: Text(widget.transaction.operator))
+                                flex: 8,
+                                child: Text("Operator"),
+                              )
                             ],
                           ),
                         )
@@ -281,14 +320,48 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                         Expanded(
                           flex: 8,
                           child: Padding(
-                              padding: EdgeInsets.only(
-                                  right: 15, left: 15, bottom: 10),
-                              child: ListView.builder(
-                                itemCount: itemTileDetails.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return itemTileDetails[index];
+                            padding: EdgeInsets.only(
+                                right: 15, left: 15, bottom: 10),
+                            child: Query(
+                              options: QueryOptions(
+                                document: Queries.getSoldProduct,
+                                variables: {
+                                  'listProduct':
+                                      widget.transaction.listProductId
                                 },
-                              )),
+                              ),
+                              builder: (QueryResult result,
+                                  {VoidCallback refetch, FetchMore fetchMore}) {
+                                if (result.errors != null) {
+                                  return Text(result.errors.toString());
+                                }
+                                if (result.loading) {
+                                  return Text("Loading...");
+                                }
+                                List<dynamic> fetchedProduk =
+                                    result.data['produk'];
+
+                                return ListView.builder(
+                                  itemCount: fetchedProduk.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    dynamic responseData = fetchedProduk[index];
+                                    Product product = Product(
+                                        responseData['serial_id'],
+                                        responseData['nama_produk'],
+                                        responseData['harga'],
+                                        responseData['stocks'][0]['stock'],
+                                        DateTime.parse(responseData['exp']),
+                                        responseData['rak_produks'][0]['rak']);
+                                    return ItemTile(
+                                        product,
+                                        widget
+                                            .transaction.listProductQty[index]);
+                                  },
+                                );
+                              },
+                            ),
+                          ),
                         )
                       ],
                     ),

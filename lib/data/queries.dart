@@ -116,4 +116,43 @@ mutation newTransaction(\$jam:time!,\$tanggal:date!,\$soldProduct:_int8!,\$total
 }
 
   """;
+
+  static String getListTransaksiPerBulan = """
+ query transaksiPerBulan(\$tanggal: date!) {
+  transaksi(where: {tanggal: {_eq: \$tanggal}}, order_by: {jam: desc}) {
+    transaksi_id
+    jam
+    tanggal
+    sold_product
+    total_harga
+  }
+}
+
+  """;
+
+  static String getTotalPenjualanPerBulan = """
+  query totalPenjualanPerBulan {
+  total_penjualan_per_bulan(order_by: {tanggal: desc}) {
+    tanggal
+    total_harga_per_bulan
+  }
+}
+  """;
+
+  static String getSoldProduct = """
+    query getSoldProduct(\$listProduct:[bigint!]!) {
+    produk(where: {serial_id: {_in: \$listProduct}}) {
+      serial_id
+      nama_produk
+      harga
+      exp
+      rak_produks {
+        rak
+      }
+      stocks {
+        stock
+      }
+    }
+  }
+  """;
 }

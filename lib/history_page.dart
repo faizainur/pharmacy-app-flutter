@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:pharmacy_app/data/queries.dart';
 import 'package:pharmacy_app/models/product.dart';
 import 'package:pharmacy_app/models/transaction.dart';
 import 'history_item.dart';
@@ -87,6 +90,46 @@ class _HistoryPageState extends State<HistoryPage> {
     /* End of section */
   }
 
+  List<Product> getListSoldProduct(List<int> listId) {
+    // return Query(
+    //   options: QueryOptions(document: Queries.getListTransaksi),
+    //   builder: (QueryResult result, {VoidCallback refetch}) {
+    //     List<Transaction> transaksi;
+    //     return transaksi;
+    //   },
+    // );
+  List<Product> soldProducts = List<Product>();
+    Query(
+      options: QueryOptions(
+        document: Queries.getSoldProduct,
+        variables: {'listProduct': listId},
+      ),
+      builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
+        if (result.errors != null) {
+          return Text(result.errors.toString());
+        }
+        if (result.loading) {
+          return Text("Loading...");
+        }
+        List<dynamic> fetchedProduk = result.data['produk'];
+        fetchedProduk.forEach(
+          (itemProduk) {
+            soldProducts.add(Product(
+                itemProduk['serial_id'],
+                itemProduk['nama_produk'],
+                itemProduk['harga'],
+                itemProduk['stocks'][0]['stock'],
+                DateTime.parse(itemProduk['exp']),
+                itemProduk['rak_produks'][0]['rak']));
+          },
+        );
+        return Text("Success");
+      },
+    );
+    
+    return soldProducts;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,55 +147,121 @@ class _HistoryPageState extends State<HistoryPage> {
       ),
       body: Container(
         child: Center(
-          child: ListView.builder(
-            itemCount: bundleList.length,
-            itemBuilder: (BuildContext context, int index) {
-              List<Widget> listTiles = List<Widget>();
+            child: Query(
+          options: QueryOptions(
+            document: Queries.getTotalPenjualanPerBulan,
+          ),
+          builder: (QueryResult resultPerBulan, {VoidCallback refetch, FetchMore fetchMore}) {
+            if (resultPerBulan.errors != null) {
+              return Text(resultPerBulan.errors.toString());
+            }
+            if (resultPerBulan.loading) {
+              return Text("Loading...");
+            }
+            List<dynamic> resultPerBulanList =
+                resultPerBulan.data['total_penjualan_per_bulan'];
+            return ListView.builder(
+              itemCount: resultPerBulanList.length,
+              itemBuilder: (BuildContext context, int index) {
+                // List<Widget> listTiles = List<Widget>();
 
-              bundleList[index].transactionList.forEach(
-                (v) {
-                  listTiles.add(HistoryItem(v));
-                },
-              );
+                // bundleList[index].transactionList.forEach(
+                //   (v) {
+                //     listTiles.add(HistoryItem(v));
+                //   },
+                // );
+                dynamic responseData = resultPerBulanList[index];
+                return StickyHeader(
+                  header: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    height: 50,
+                    color: Colors.grey[200],
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                            flex: 1,
+                            child: Text(
+                              responseData['tanggal'].toString(),
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.grey),
+                            )
+                            // resultPerBulan['total_penjualan_per_bulan'],
 
-              return StickyHeader(
-                header: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  height: 50,
-                  color: Colors.grey[200],
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: Text(
-                          bundleList[index].date,
-                          style: TextStyle(fontSize: 15, color: Colors.grey),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            "Rp. " +
-                                bundleList[index].totalIncomePerDay.toString(),
-                            style: TextStyle(
-                                color: Colors.blue[800],
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16),
+                            ),
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              "Rp. " +
+                                  responseData['total_harga_per_bulan']
+                                      .toString(),
+                              style: TextStyle(
+                                  color: Colors.blue[800],
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                content: Wrap(
-                  children: listTiles,
-                ),
-              );
-            },
-          ),
-        ),
+                  content: Query(
+                    options: QueryOptions(
+                      document: Queries.getListTransaksiPerBulan,
+                      variables: {'tanggal': responseData['tanggal']},
+                    ),
+                    builder: (QueryResult transaksiItem,
+                        {VoidCallback refetch, FetchMore fetchMore}) {
+                      if (transaksiItem.errors != null) {
+                        return Text(transaksiItem.errors.toString());
+                      }
+                      if (transaksiItem.loading) {
+                        return Text("Loading...");
+                      }
+                      List<dynamic> fetchedTransaksi =
+                          transaksiItem.data['transaksi'];
+                      
+
+                      // fetchedTransaksi.forEach(
+                      //   (v) {
+                          
+                      //   },
+                      // );
+
+                      List<HistoryItem> listTiles = List<HistoryItem>();
+
+                      fetchedTransaksi.forEach(
+                        (transaksi) {
+                          List<int> soldProductId = List<int>();
+                          List<int> soldProductQty = List<int>();
+                          List<dynamic> soldProductList = transaksi['sold_product'];
+                          soldProductList.forEach(
+                            (soldProduct) {
+                              soldProductId.add(soldProduct[0]);
+                              soldProductQty.add(soldProduct[1]);
+                            },
+                          );
+                          listTiles.add(
+                            HistoryItem(
+                              Transaction(transaksi['transaksi_id'],
+                              DateFormat.yMMMMd("en_US").format(DateTime.parse(transaksi['tanggal'])),
+                              transaksi['jam'].substring(0,5),
+                              soldProductId,
+                              soldProductQty,
+                              transaksi['total_harga']),
+                            ),
+                          );
+                        },
+                      );
+                      return Wrap(children: listTiles,);
+                    },
+                  ),
+                );
+              },
+            );
+          },
+        )),
       ),
     );
   }

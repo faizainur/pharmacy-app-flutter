@@ -4,10 +4,10 @@ class Transaction {
   int transactionId;
   String date;
   String time;
-  List<Product> listProductSold;
+  List<int> listProductId;
+  List<int> listProductQty;
   int totalPrice;
   String operator;
 
-  Transaction(this.transactionId, this.date, this.time, this.listProductSold,
-       this.totalPrice, this.operator);
+  Transaction(this.transactionId, this.date, this.time, this.listProductId, this.listProductQty, this.totalPrice);
 }

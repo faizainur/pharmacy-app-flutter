@@ -63,7 +63,6 @@ class _NewTransactionPageState extends State<NewTransactionPage>
   int totalHarga = 0;
   int totalProduk = 0;
 
-
   // var addBillButton = RaisedButton(
   //   color: Colors.blue[900],
   //   child: Center(
@@ -217,6 +216,11 @@ class _NewTransactionPageState extends State<NewTransactionPage>
   Widget build(BuildContext context) {
     print(soldProductId);
     print(soldProductQty);
+    totalHarga = 0;
+    soldProduct.forEach((product) {
+      int qty = soldProductQty[soldProduct.indexOf(product)];
+      totalHarga += (product.price * qty);
+    });
     return Scaffold(
       key: _scaffKey,
       appBar: AppBar(
@@ -437,7 +441,7 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                                     })
                               : QueryOptions(document: Queries.fetchAll()),
                           builder: (QueryResult result,
-                              {VoidCallback refetch}) {
+                              {VoidCallback refetch, FetchMore fetchMore}) {
                             if (result.errors != null) {
                               return Text(result.errors.toString());
                             }
@@ -482,12 +486,12 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                                         soldProduct.add(product);
                                         soldProductId.add(product.serialId);
                                         soldProductQty.add(1);
-                                        totalHarga += product.price;
+                                        // totalHarga += product.price;
                                       } else {
                                         print("Ada");
                                         soldProductQty[soldProductId
                                             .indexOf(product.serialId)] += 1;
-                                        totalHarga += product.price;
+                                        // totalHarga += product.price;
                                       }
                                     });
                                     // print(soldProductId);
@@ -509,11 +513,17 @@ class _NewTransactionPageState extends State<NewTransactionPage>
               margin: EdgeInsets.only(bottom: 65),
               child: Column(
                 children: <Widget>[
-                  Divider(
-                    color: Colors.grey,
-                    thickness: 3,
-                    indent: MediaQuery.of(context).size.width / 2.5,
-                    endIndent: MediaQuery.of(context).size.width / 2.5,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: SizedBox(
+                        child: Container(
+                          color: Colors.grey,
+                        ),
+                        height: 3,
+                        width: MediaQuery.of(context).size.width / 7,
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: AnimatedOpacity(
@@ -535,13 +545,16 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                                 children: <Widget>[
                                   Expanded(
                                     flex: 2,
-                                    child: Text(
-                                      soldProduct.length.toString() +
-                                          " Product",
-                                      style: TextStyle(
-                                          color: Colors.grey[700],
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w500),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        soldProduct.length.toString() +
+                                            " Product",
+                                        style: TextStyle(
+                                            color: Colors.grey[700],
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500),
+                                      ),
                                     ),
                                   ),
                                   Expanded(
@@ -584,9 +597,178 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                                     itemCount: soldProduct.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                      return ItemPurchaseTile(
-                                          soldProduct[index],
-                                          soldProductQty[index]);
+                                      return Container(
+                                        padding: EdgeInsets.all(8),
+                                        height: 60,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Expanded(
+                                              flex: 2,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    soldProduct[index]
+                                                        .productName,
+                                                    style:
+                                                        TextStyle(fontSize: 16),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 8.0),
+                                                    child: Text(
+                                                      "Rp. " +
+                                                          soldProduct[index]
+                                                              .price
+                                                              .toString(),
+                                                      style: TextStyle(
+                                                        fontSize: 13,
+                                                        color: Colors.grey[700],
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                                flex: 1,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      flex: 6,
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .end,
+                                                        children: <Widget>[
+                                                          Container(),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 8.0,
+                                                                    right: 10),
+                                                            child: Text(
+                                                              "Rp. " +
+                                                                  soldProduct[
+                                                                          index]
+                                                                      .price
+                                                                      .toString() +
+                                                                  " x " +
+                                                                  soldProductQty[
+                                                                          index]
+                                                                      .toString(),
+                                                              style: TextStyle(
+                                                                  fontSize: 13,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      700]),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Column(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: FlatButton(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      right: 5),
+                                                              color:
+                                                                  Colors.white,
+                                                              splashColor:
+                                                                  Colors.white,
+                                                              child: Icon(
+                                                                Icons.edit,
+                                                                size: 18,
+                                                                color: Colors
+                                                                    .grey[700],
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                // Scaffold.of(context).showSnackBar(
+                                                                //   SnackBar(
+                                                                //     content: Text("Edit Data"),
+                                                                //     duration: Duration(milliseconds: 500),
+                                                                //   ),
+                                                                // );/
+                                                                await showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (BuildContext
+                                                                            context) {
+                                                                      return EditItemDialog(
+                                                                          soldProductQty[
+                                                                              index]);
+                                                                    }).then(
+                                                                  (val) {
+                                                                    setState(
+                                                                      () {
+                                                                        soldProductQty[index] =
+                                                                            val;
+                                                                      },
+                                                                    );
+                                                                  },
+                                                                );
+
+                                                                // print("Data");
+                                                              },
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: FlatButton(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      right: 5),
+                                                              color:
+                                                                  Colors.white,
+                                                              splashColor:
+                                                                  Colors.white,
+                                                              child: Icon(
+                                                                Icons.delete,
+                                                                size: 18,
+                                                                color: Colors
+                                                                    .grey[700],
+                                                              ),
+                                                              onPressed: () {
+                                                                setState(() {
+                                                                  soldProductQty
+                                                                      .removeAt(
+                                                                          index);
+                                                                  soldProductId
+                                                                      .removeAt(
+                                                                          index);
+                                                                  soldProduct
+                                                                      .removeAt(
+                                                                          index);
+                                                                });
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ))
+                                          ],
+                                        ),
+                                      );
                                     },
                                   ),
                                 )),
@@ -606,7 +788,7 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                                     Expanded(
                                       flex: 1,
                                       child: Text(
-                                        totalHarga.toString(),
+                                        "Rp. " + totalHarga.toString(),
                                         style: TextStyle(
                                             color: const Color(0xff0B3557),
                                             fontSize: 25,
@@ -738,95 +920,69 @@ class _NewTransactionPageState extends State<NewTransactionPage>
   }
 }
 
-class ItemPurchaseTile extends StatefulWidget {
-  Product product;
+class EditItemDialog extends StatefulWidget {
   int qty;
 
-  ItemPurchaseTile(this.product, this.qty);
-
+  EditItemDialog(this.qty);
   @override
-  _ItemPurchaseTileState createState() => _ItemPurchaseTileState();
+  _EditItemDialogState createState() => _EditItemDialogState();
 }
 
-class _ItemPurchaseTileState extends State<ItemPurchaseTile> {
+class _EditItemDialogState extends State<EditItemDialog> {
+  final editItemController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(8),
-      height: 60,
-      child: Row(
+    editItemController.text = widget.qty.toString();
+    return AlertDialog(
+      title: Text("Edit Item"),
+      content: Row(
         children: <Widget>[
           Expanded(
-            flex: 2,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  widget.product.productName,
-                  style: TextStyle(fontSize: 16),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    "Rp. " + widget.product.price.toString(),
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[700],
-                    ),
-                  ),
-                )
-              ],
+            flex: 1,
+            child: FlatButton(
+              onPressed: () {
+                setState(() {
+                  setState(() {
+                    widget.qty += 1;
+                  });
+                });
+              },
+              child: Icon(Icons.add),
             ),
           ),
           Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Expanded(
-                    flex: 6,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Container(),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 10),
-                          child: Text(
-                            "Rp. " +
-                                widget.product.price.toString() +
-                                " x " +
-                                widget.qty.toString(),
-                            style: TextStyle(
-                                fontSize: 13, color: Colors.grey[700]),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      // alignment: Alignment.center,
-                      child: IconButton(
-                        icon: Icon(Icons.edit),
-                        iconSize: 18,
-                        color: Colors.grey[700],
-                        onPressed: () {
-                          Scaffold.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Edit Data"),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  )
-                ],
-              ))
+            flex: 1,
+            child: TextField(
+              controller: editItemController,
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: FlatButton(
+              onPressed: () {
+                setState(() {
+                  if (widget.qty != 0) {
+                    widget.qty -= 1;
+                  }
+                });
+              },
+              child: Icon(Icons.remove),
+            ),
+          ),
         ],
       ),
+      actions: <Widget>[
+        RaisedButton(
+          child: Text(
+            "Apply",
+            style: TextStyle(color: Colors.white),
+          ),
+          onPressed: () {
+            Navigator.pop(context, widget.qty);
+          },
+        ),
+      ],
     );
   }
 }

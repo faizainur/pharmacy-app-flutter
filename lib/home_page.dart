@@ -40,9 +40,10 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             flex: 1,
                             child: Divider(
-                              thickness: 1,
+                              height: 1,
                               indent: 20,
                               endIndent: 20,
+                              
                             ),
                           ),
                           Expanded(
@@ -78,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             flex: 1,
                             child: Divider(
-                              thickness: 1,
+                              height: 1,
                               indent: 20,
                               endIndent: 20,
                             ),
@@ -120,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             flex: 1,
                             child: Divider(
-                              thickness: 1,
+                              height: 1,
                               indent: 20,
                               endIndent: 20,
                             ),
@@ -158,7 +159,7 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             flex: 1,
                             child: Divider(
-                              thickness: 1,
+                              height: 1,
                               indent: 20,
                               endIndent: 20,
                             ),
@@ -201,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             flex: 1,
                             child: Divider(
-                              thickness: 1,
+                              height: 1,
                               indent: 20,
                               endIndent: 20,
                             ),
@@ -239,7 +240,7 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             flex: 1,
                             child: Divider(
-                              thickness: 1,
+                              height: 1,
                               indent: 20,
                               endIndent: 20,
                             ),
@@ -272,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       flex: 1,
                       child: Divider(
-                        thickness: 2,
+                        height: 2,
                         indent: 5,
                         endIndent: 5,
                       ),

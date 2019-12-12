@@ -21,7 +21,7 @@ class _SortBottomSheetState extends State<SortBottomSheet> {
           children: <Widget>[
             Divider(
               color: Colors.grey,
-              thickness: 3,
+              height: 3,
               endIndent: MediaQuery.of(context).size.width / 2.5,
               indent: MediaQuery.of(context).size.width / 2.5,
             ),
