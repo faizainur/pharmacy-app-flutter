@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:loading/indicator/ball_pulse_indicator.dart';
+import 'package:loading/loading.dart';
 import 'package:pharmacy_app/data/queries.dart';
 import 'package:pharmacy_app/models/product.dart';
 import 'package:pharmacy_app/models/transaction.dart';
@@ -20,38 +22,16 @@ class TransactionDetailsPage extends StatefulWidget {
 
 class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
   GlobalKey<ScaffoldState> _transactionDetailsKey = GlobalKey<ScaffoldState>();
-  GlobalKey _detaildCardKey;
 
   List<Widget> itemTileDetails = List<Widget>();
   Map<Product, int> itemList = Map<Product, int>();
-
-  double _cardHeight;
-  double _cardWidth;
-
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    itemList.clear();
-    itemTileDetails.clear();
-    // widget.transaction.listProductSold.forEach(
-    //   (v) {
-    //     itemList.update(
-    //       v,
-    //       (val) => val += 1,
-    //       ifAbsent: () => 1,
-    //     );
-    //   },
-    // );
-
-    // itemList.forEach(
-    //   (k, v) {
-    //     String name = k.productName;
-    //     print("$name $v");
-    // itemTileDetails.add(ItemTile(k, v));
-    //   },
-    // );
+    // itemList.clear();
+    // itemTileDetails.clear();
   }
 
   @override
@@ -134,8 +114,8 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                           flex: 1,
                           child: Text(
                             "Transaction ID",
-                            style:
-                                TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500),
                           ),
                         ),
                         Expanded(
@@ -158,31 +138,31 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                   Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Row(
-                children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Text(
-                        "Total",
-                        style:
-                            TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          "Rp. " + widget.transaction.totalPrice.toString(),
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey[700],
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            "Total",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500),
                           ),
                         ),
-                      ),
-                    )
-                ],
-              ),
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              "Rp. " + widget.transaction.totalPrice.toString(),
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -337,7 +317,13 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                                   return Text(result.errors.toString());
                                 }
                                 if (result.loading) {
-                                  return Text("Loading...");
+                                  return Center(
+                                    child: Loading(
+                                      indicator: BallPulseIndicator(),
+                                      size: 30,
+                                      color: Colors.grey,
+                                    ),
+                                  );
                                 }
                                 List<dynamic> fetchedProduk =
                                     result.data['produk'];

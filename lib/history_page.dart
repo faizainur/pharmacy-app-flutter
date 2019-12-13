@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:loading/indicator/ball_pulse_indicator.dart';
+import 'package:loading/loading.dart';
 import 'package:pharmacy_app/data/queries.dart';
 import 'package:pharmacy_app/models/product.dart';
 import 'package:pharmacy_app/models/transaction.dart';
@@ -158,7 +160,13 @@ class _HistoryPageState extends State<HistoryPage> {
               return Text(resultPerBulan.errors.toString());
             }
             if (resultPerBulan.loading) {
-              return Text("Loading...");
+              return Center(
+                child: Loading(
+                  indicator: BallPulseIndicator(),
+                  size: 50,
+                  color: Colors.grey,
+                ),
+              );
             }
             List<dynamic> resultPerBulanList =
                 resultPerBulan.data['total_penjualan_per_bulan'];
@@ -220,7 +228,13 @@ class _HistoryPageState extends State<HistoryPage> {
                         return Text(transaksiItem.errors.toString());
                       }
                       if (transaksiItem.loading) {
-                        return Text("Loading...");
+                        return Center(
+                          child: Loading(
+                            indicator: BallPulseIndicator(),
+                            size: 30,
+                            color: Colors.grey,
+                          ),
+                        );
                       }
                       List<dynamic> fetchedTransaksi =
                           transaksiItem.data['transaksi'];

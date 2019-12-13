@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:loading/indicator/ball_pulse_indicator.dart';
+import 'package:loading/loading.dart';
 import 'package:pharmacy_app/data/queries.dart';
 import 'package:pharmacy_app/item_tile.dart';
 import 'package:pharmacy_app/product_details.dart';
@@ -401,7 +403,13 @@ class _NewTransactionPageState extends State<NewTransactionPage>
                               return Text(result.errors.toString());
                             }
                             if (result.loading) {
-                              return Text("Loading...");
+                              return Center(
+                                    child: Loading(
+                                      indicator: BallPulseIndicator(),
+                                      size: 50,
+                                      color: Colors.grey,
+                                    ),
+                                  );
                             }
                             List<dynamic> fetchedProduk = result.data['produk'];
                             return ListView.builder(

@@ -7,7 +7,14 @@ class Transaction {
   List<int> listProductId;
   List<int> listProductQty;
   int totalPrice;
-  String operator;
 
-  Transaction(this.transactionId, this.date, this.time, this.listProductId, this.listProductQty, this.totalPrice);
+  // Constructor
+  Transaction(
+    this.transactionId,
+    this.date,
+    this.time,
+    this.listProductId,
+    this.listProductQty,
+    this.totalPrice,
+  );
 }

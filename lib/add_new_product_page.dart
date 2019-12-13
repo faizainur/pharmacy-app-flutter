@@ -249,16 +249,6 @@ class _AddNewProductPageState extends State<AddNewProductPage> {
                   color: Colors.grey[700],
                 ),
                 decoration: InputDecoration(
-                  // suffixIcon: IconButton(
-                  //   onPressed: scanBarcode,
-                  //   icon: Image(
-                  //     image: AssetImage('images/001-barcode-scanner.png'),
-                  //     color: Colors.grey,
-                  //   ),
-                  //   focusColor: Colors.grey,
-                  //   iconSize: 25,
-                  //   hoverColor: Colors.grey,
-                  // ),Text
                   focusColor: Colors.grey[700],
                   hoverColor: Colors.grey[700],
                   contentPadding:

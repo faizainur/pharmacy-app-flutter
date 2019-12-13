@@ -3,6 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:pharmacy_app/config/client.dart';
 import 'package:pharmacy_app/history_page.dart';
 import 'package:pharmacy_app/products_page.dart';
+import 'package:pharmacy_app/splash_screen.dart';
 import 'home_page.dart';
 import 'custom_navigation_drawer.dart';
 import 'rounded_container_widget.dart';
@@ -17,11 +18,16 @@ void main() {
     systemNavigationBarColor: Colors.blue, // navigation bar color
     statusBarColor: const Color(0xff1f83fe),
   ));
-  final HttpLink httpLink = HttpLink(uri: 'http://34.226.136.197/v1/graphql',
-  headers: {'x-hasura-access-key' : 'adminpostgres'});
+  // GraphQL Server Endpoint
+  final HttpLink httpLink = HttpLink(
+      uri: 'http://34.226.136.197/v1/graphql',
+      headers: {'x-hasura-access-key': 'adminpostgres'});
+
+  // GraphQL Auth
   final AuthLink authLink =
       AuthLink(getToken: () async => 'Bearer adminpostgres');
   final Link link = authLink.concat(httpLink as Link);
+
   ValueNotifier<GraphQLClient> client = ValueNotifier(
     GraphQLClient(
       cache: InMemoryCache(),
@@ -34,19 +40,9 @@ void main() {
       child: CacheProvider(child: MyApp()),
     ),
   );
-  // runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  String docQuery = """
-  query MyQuery {
-    produk {
-      nama_produk
-      harga
-    }
-  }
-  """;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -57,24 +53,13 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.cyan[600],
         // canvasColor: Colors.transparent,
       ),
-      home: 
-      // Query(options: QueryOptions(document: docQuery),
-      // builder: 
-      // (QueryResult result, {VoidCallback refetch}) {
-      //     if (result.errors != null) {
-      //       return Text(result.errors.toString());
-      //     }
-      //     if (result.loading) {
-      //       return Text("Loading");
-      //     }
-      //     // List resData = result.data['produk'];
-      //     print(result.data['produk'][0]['nama_produk']);
-      //     return Text(result.data['produk'][0]['nama_produk']);
-      //     // return Text("Hello");
-      // },) 
-      MainPage(
-        title: 'Pharmacy App',
-      ),
+      home:
+          SplashScreen(),
+      routes: <String, WidgetBuilder>{
+        '/HomeScreen': (BuildContext context) => MainPage(
+              title: 'Pharmacy App',
+            ),
+      },
     );
   }
 }

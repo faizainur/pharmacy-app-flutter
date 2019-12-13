@@ -6,6 +6,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:loading/indicator/ball_pulse_indicator.dart';
+import 'package:loading/loading.dart';
 import 'package:pharmacy_app/add_new_product_page.dart';
 import 'package:pharmacy_app/addnewproductwodget.dart';
 import 'package:pharmacy_app/product_details.dart';
@@ -228,12 +230,6 @@ class _ProductsPageState extends State<ProductsPage> {
                   ),
                   child: Stack(
                     children: <Widget>[
-                      // ListView.builder(
-                      //   itemCount: listProduct.length,
-                      //   itemBuilder: (context, index) {
-                      //     return ProductCard(listProduct[index]);
-                      //   },
-                      // ),
                       Query(
                         options: searchEnable ? 
                               QueryOptions(
@@ -248,7 +244,13 @@ class _ProductsPageState extends State<ProductsPage> {
                             return Text(result.errors.toString());
                           }
                           if (result.loading) {
-                            return Text("Loading...");
+                            return Center(
+                                    child: Loading(
+                                      indicator: BallPulseIndicator(),
+                                      size: 50,
+                                      color: Colors.grey,
+                                    ),
+                                  );
                           }
                           List<dynamic> fetchedProduk = result.data['produk'];
                           return ListView.builder(
